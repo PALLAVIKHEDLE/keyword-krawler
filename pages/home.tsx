@@ -4,21 +4,19 @@ import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
 export default function Page() {
  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-    <div className="z-10 max-w-5xl  w-full items-center justify-between font-mono text-sm lg:flex">
-    <div className="justify-center items-center lg:rounded-xl">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+    <div className="w-full font-mono text-sm lg:flex">
+      <div className="mx-auto bg-white rounded-full border flex" style={{ width: '50%', justifyContent: 'space-between', marginBottom: '25%' }}>
         <input
           type="text"
-          placeholder="URL"
-          style={{
-            backgroundColor: 'white',
-            border: 'none',
-            outline: 'none',
-            textAlign: 'center',
-            width: '100%',
-            padding: '12px',
-          }}
+          placeholder="Paste URL here..."
+          className="bg-white border-none outline-none text-black px-4 py-2 rounded-full"
+          style={{width:'100%'}}
         />
+      
+        <span className="text-black text-lg bg-white px-4 py-2 rounded-full" style={{ fontSize: 25 }}>
+          &rarr;
+        </span>
       </div>
     </div>
   </main>
