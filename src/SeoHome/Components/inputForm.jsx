@@ -44,7 +44,7 @@ class InputForm extends React.Component {
                                 initialValues={{
                                     remember: true,
                                 }}
-                                onFinish={(e) => { this.props.handleLoginClick(e) }}
+                                onFinish={(e) => { this.props.handleRecommendationClick(e) }}
                                 onFinishFailed={this.props.handleLoginFailed}
                                 autoComplete="off"
                             >
@@ -94,18 +94,14 @@ class InputForm extends React.Component {
                                     }}
                                 >
                                     <Button type="primary" htmlType="submit">
-                                        Submit
+                                        Get Recommendation
                                     </Button>
                                 </Form.Item>
                             </Form>
 
-
-
-
                         </Card>
 
                     </Col>
-
 
                 </Row>
             </div>
