@@ -17,7 +17,7 @@ async def root():
     time.sleep(4)
     return {
     "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"],
-    "alogirthmExecutingTime": 0.893473
+    "alogirthmExecutionTime": 0.893473
 }
     
     
@@ -29,27 +29,27 @@ async def root():
     "data": [
         {
             "algoName": "algo1",
-            "algoExecutingTime": 0.893473,
+            "algoExecutionTime": 0.893473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo2",
-            "algoExecutingTime": 0.893473,
+            "algoExecutionTime": 0.893473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo3",
-            "algoExecutingTime": 0.893473,
+            "algoExecutionTime": 0.893473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo4",
-            "algoExecutingTime": 0.893473,
+            "algoExecutionTime": 0.893473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
                 {
             "algoName": "algo5",
-            "algoExecutingTime": 0.892373,
+            "algoExecutionTime": 0.892373,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         }
     ]
