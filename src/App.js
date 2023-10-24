@@ -1,11 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
-import SeoHome from './SeoHome';
+import HomePage  from './components/homePage';
 
 function App() {
   return (
-    
-    <SeoHome/>
+   <HomePage/>
   );
 }
 
