@@ -32,23 +32,43 @@ function HomePage() {
       alert("Please enter a URL");
       return;
     }
-
-    // Perform the action you want when the form is submitted
-    console.log("Form submitted:", {
+  
+    const payload = {
       url: urlInput,
       algorithm: selectedAlgorithm,
-    });
+    };
+  
+    console.log("Form submitted:", payload);
+  
     setShowTransition(true);
-    setTimeout(() => {
-      setLoading(true);
-      setShowTransition(false);
-    }, 10000);
+  
+    fetch('http://localhost:8000/api/v1/scraping', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the API response
+        console.log('API response:', data);
+        setLoading(true);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('API error:', error);
+      })
+      .finally(() => {
+        // This block will run regardless of success or error
+        setShowTransition(false);
+      });
   };
-
+  
   return (
-    <div className={`container ${showTransition ? "move-up" : ""}`}>
+    <div id="pdf-container" className={`container ${showTransition ? "move-up" : ""}`}>
       <div>
-        <h1 id="pdf-container"  className="textStyle">Keyword-Krwaler</h1>
+        <h1   className="textStyle">Keyword-Krwaler</h1>
         <div className="inputContainer">
           <input
             type="text"
