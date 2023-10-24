@@ -72,11 +72,9 @@ def remove_pronouns_nouns(text):
         else:
             filtered_words.append(word)
 
-    # Join the filtered words back into a string
     filtered_text = ' '.join(filtered_words)
     removed_text = ' '.join(removed_words)
 
-    # Return the filtered text
     return filtered_text, removed_text
 
 @app.post('/api/v1/scraping/')
