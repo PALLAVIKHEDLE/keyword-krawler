@@ -1,7 +1,7 @@
 import React from 'react';
-import './nextFrame.css';
+import './scraperFrame.css';
 
-function NextFrame(props) {
+function ScraperTextFrame(props) {
   return (
     <div className='scrapercontainer'>
       <h1 className='h1textStyle'>Scraper context for {props.url}</h1>
@@ -11,4 +11,4 @@ function NextFrame(props) {
     </div>
   );
 }
-export default NextFrame;
+export default ScraperTextFrame;

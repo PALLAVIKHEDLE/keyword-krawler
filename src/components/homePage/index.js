@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import NextFrame from "./nextFrame";
+import ScraperTextFrame from "./scraperTextFrame";
 import "./animation.css"
 import html2pdf from 'html2pdf.js';
 import scraperText from '../../api/scraperText';
 import MultiAlgoComparision from "../../api/multiAlgo";
 import keywordList from "../../api/keyword";
+import KeywordListFrame from './keywordListFrame'
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -138,7 +139,8 @@ function HomePage() {
             </div>
           </div>
         )}
-        {scraperData && <NextFrame url={urlInput}  scraperData={scraperData}/>}
+        {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
+        {keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
 
         <button className="downloadButton" onClick={handleDownload}>
           Download

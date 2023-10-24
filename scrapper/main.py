@@ -27,42 +27,52 @@ async def root():
     response = {"topKeywordListings": [
             {
             "original": "first",
+            "count": 45,
             "recommendation": "FirstRec"
             },
             {
             "original": "second",
+            "count": 55,
             "recommendation": "SecondRec"
             },
             {
             "original": "third",
+            "count": 56,
             "recommendation": "ThirdRec"
             },
             {
             "original": "four",
+            "count": 75,
             "recommendation": "FourthRec"
             },
             {
             "original": "fifth",
+            "count": 95,
             "recommendation": "FifthRec"
             },
             {
             "original": "six",
+            "count": 82,
             "recommendation": "SixRec"
             },
             {
             "original": "seven",
+            "count": 34,
             "recommendation": "SevenRec"
             },
             {
             "original": "eight",
+            "count": 23,
             "recommendation": "EightRec"
             },
             {
             "original": "Nine",
+            "count": 10,
             "recommendation": "NineRec"
             },
             {
             "original": "Ten",
+            "count": 15,
             "recommendation": "TenRec"
             }],
     "alogirthmExecutionTime": 0.893473
