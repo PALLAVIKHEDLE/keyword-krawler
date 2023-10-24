@@ -24,10 +24,50 @@ async def root():
 @app.post('/api/v1/keyword/')
 async def root():
     time.sleep(4)
-    return {
-    "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"],
+    response = {"topKeywordListings": [
+            {
+            "original": "first",
+            "recommendation": "FirstRec"
+            },
+            {
+            "original": "second",
+            "recommendation": "SecondRec"
+            },
+            {
+            "original": "third",
+            "recommendation": "ThirdRec"
+            },
+            {
+            "original": "four",
+            "recommendation": "FourthRec"
+            },
+            {
+            "original": "fifth",
+            "recommendation": "FifthRec"
+            },
+            {
+            "original": "six",
+            "recommendation": "SixRec"
+            },
+            {
+            "original": "seven",
+            "recommendation": "SevenRec"
+            },
+            {
+            "original": "eight",
+            "recommendation": "EightRec"
+            },
+            {
+            "original": "Nine",
+            "recommendation": "NineRec"
+            },
+            {
+            "original": "Ten",
+            "recommendation": "TenRec"
+            }],
     "alogirthmExecutionTime": 0.893473
-}
+    }
+    return response
     
     
 
