@@ -20,8 +20,9 @@ function HomePage() {
   };
 
   const handleDownload = () => {
-    const element = document.getElementById('pdf-container'); 
+    // const element = document.getElementById('pdf-container'); 
     // html2pdf(element);
+    window.print()
    
   };
 
