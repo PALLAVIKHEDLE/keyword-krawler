@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import NextFrame from "./nextFrame";
-import "./animation.css";
+import "./animation.css"
 import html2pdf from 'html2pdf.js';
-
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("robinkarp");
   const [loading, setLoading] = useState(false);
-  const [showTransition, setShowTransition] = useState(false);
+  const [scraperData, setScraperData] = useState("");
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const container = document.getElementById("pdf-container");
+
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  
+  
+  
 
   const handleUrlChange = (event) => {
     setUrlInput(event.target.value);
@@ -20,54 +37,51 @@ function HomePage() {
   };
 
   const handleDownload = () => {
-    // const element = document.getElementById('pdf-container'); 
+     // const element = document.getElementById('pdf-container'); 
     // html2pdf(element);
-    window.print()
-   
+    window.print();
   };
 
-  
   const handleSubmit = () => {
     if (urlInput.trim() === "") {
       alert("Please enter a URL");
       return;
     }
-  
+    setLoading(true);
+
+
     const payload = {
       url: urlInput,
       algorithm: selectedAlgorithm,
     };
-  
+
     console.log("Form submitted:", payload);
-  
-    setShowTransition(true);
-  
+
+
     fetch('http://localhost:8000/api/v1/scraping', {
-      method: 'POST', 
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
       .then(response => response.json())
       .then(data => {
-        // Handle the API response
+        setScraperData(data);
         console.log('API response:', data);
-        setLoading(true);
+        setLoading(false);
       })
       .catch(error => {
-        // Handle errors
         console.error('API error:', error);
       })
       .finally(() => {
-        // This block will run regardless of success or error
-        setShowTransition(false);
+        setLoading(false);
       });
   };
-  
+
   return (
-    <div id="pdf-container" className={`container ${showTransition ? "move-up" : ""}`}>
-      <div>
+    <div id="pdf-container" className={`container ${!loading && scrollPosition > 200 ? 'move-up' : ''}`}>
+         <div>
         <h1   className="textStyle">Keyword-Krwaler</h1>
         <div className="inputContainer">
           <input
@@ -91,7 +105,7 @@ function HomePage() {
         <button className="centeredButton" onClick={handleSubmit}>
           Crawl
         </button>
-        {showTransition && (
+        {loading && (
           <div className="upwards-transition">
             <div class="center">
               <div class="wave"></div>
@@ -107,7 +121,7 @@ function HomePage() {
             </div>
           </div>
         )}
-        {loading && <NextFrame url={urlInput} />}
+        {scraperData && <NextFrame url={urlInput}  scraperData={scraperData}/>}
 
         <button className="downloadButton" onClick={handleDownload}>
           Download

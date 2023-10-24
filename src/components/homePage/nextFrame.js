@@ -1,14 +1,13 @@
 import React from 'react';
-import './nextFrame.css'
-
+import './nextFrame.css';
 
 function NextFrame(props) {
- 
+  console.log('props', props);
   return (
-    <div>
-      <div>
-        <h1 className='h1textStyle'>Our Krawler suggestion for {props.url}</h1>
-        
+    <div className='scrapercontainer'>
+      <h1 className='h1textStyle'>Scraper context for {props.url}</h1>
+      <div className='scraperData'>
+        <p className='scrollable'>{props.scraperData.scrapedContent}</p>
       </div>
     </div>
   );

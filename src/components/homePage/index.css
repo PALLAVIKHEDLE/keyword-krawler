@@ -7,24 +7,26 @@ html, body {
     box-sizing: border-box;
   }
   
-  .container {
+   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    transition: transform 1s ease-out;
-  }
+    /* height: 100vh; */
+
+  } 
  
   
   .move-up {
-    transform: translateY(-450px); /* Adjust the distance you want to move up */
+    transform: translateY(-230px);
+    transition: transform 1s ease-out;
   }
+  
   .textStyle {
     color: yellow;
     text-align: center;
     font-size: 4em;
-    margin-top: 44%
   }
   
   .inputContainer {
@@ -33,7 +35,7 @@ html, body {
   }
   
   .textInput {
-    margin-top: 10px; /* Adjusted margin-top for vertical centering */
+    margin-top: 10px; 
     margin-right: 10px;
     margin-left: 40px;
     padding: 10px;
@@ -46,16 +48,16 @@ html, body {
   }
   
   .dropdown {
-    margin-top: 10px; /* Adjusted margin-top for vertical centering */
+    margin-top: 10px; 
     margin-right: 10px;
     padding: 10px;
     border-radius: 10px;
     width: 27%;
-    color: black; /* Text color for the selected option in the dropdown */
+    color: black; 
   }
   
   .dropdown option {
-    color: black; /* Text color for dropdown options */
+    color: black; 
   }
   
   .centeredButton {
