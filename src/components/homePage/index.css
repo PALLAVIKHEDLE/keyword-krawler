@@ -18,7 +18,7 @@ html, body {
  
   
   .move-up {
-    transform: translateY(-250px); /* Adjust the distance you want to move up */
+    transform: translateY(-450px); /* Adjust the distance you want to move up */
   }
   .textStyle {
     color: yellow;
@@ -62,11 +62,23 @@ html, body {
     background-color: black;
     color: yellow;
     border-radius: 10px;
-    border: 3px solid white; /* Set border color to white and width to 4px */
+    border: 3px solid white; 
     margin-top: 7%;
     padding: 10px;
     cursor: pointer;
     font-size: 1.5em;
    margin-left: 38%;
-    width: 15%; 
+    width: 18%; 
+}
+.downloadButton{
+  background-color: black;
+  color: yellow;
+  border-radius: 10px;
+  border: 3px solid white; 
+  margin-top: 7%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.5em;
+ margin-left: 38%;
+  width: 26%; 
 }

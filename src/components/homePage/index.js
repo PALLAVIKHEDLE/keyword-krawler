@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./index.css";
 import NextFrame from "./nextFrame";
 import "./animation.css";
+import html2pdf from 'html2pdf.js';
+
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -17,6 +19,13 @@ function HomePage() {
     setSelectedAlgorithm(event.target.value);
   };
 
+  const handleDownload = () => {
+    const element = document.getElementById('pdf-container'); 
+    // html2pdf(element);
+   
+  };
+
+  
   const handleSubmit = () => {
     if (urlInput.trim() === "") {
       alert("Please enter a URL");
@@ -38,7 +47,7 @@ function HomePage() {
   return (
     <div className={`container ${showTransition ? "move-up" : ""}`}>
       <div>
-        <h1 className="textStyle">Keyword-Krwaler</h1>
+        <h1 id="pdf-container"  className="textStyle">Keyword-Krwaler</h1>
         <div className="inputContainer">
           <input
             type="text"
@@ -59,7 +68,7 @@ function HomePage() {
           </select>
         </div>
         <button className="centeredButton" onClick={handleSubmit}>
-          Go
+          Crawl
         </button>
         {showTransition && (
           <div className="upwards-transition">
@@ -78,6 +87,10 @@ function HomePage() {
           </div>
         )}
         {loading && <NextFrame url={urlInput} />}
+
+        <button className="downloadButton" onClick={handleDownload}>
+          Download
+        </button>
       </div>
     </div>
   );
