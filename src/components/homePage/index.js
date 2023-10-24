@@ -3,12 +3,19 @@ import "./index.css";
 import NextFrame from "./nextFrame";
 import "./animation.css"
 import html2pdf from 'html2pdf.js';
+import scraperText from '../../api/scraperText';
+import MultiAlgoComparision from "../../api/multiAlgo";
+import keywordList from "../../api/keyword";
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("robinkarp");
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
+  const [keywordListData, setKeywordListData] = useState("");
+
+  const [multialgo, setMultialgo] = useState("");
+
   const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
@@ -43,12 +50,12 @@ function HomePage() {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
+
     if (urlInput.trim() === "") {
       alert("Please enter a URL");
       return;
     }
-    setLoading(true);
-
 
     const payload = {
       url: urlInput,
@@ -56,27 +63,37 @@ function HomePage() {
     };
 
     console.log("Form submitted:", payload);
-
-
-    fetch('http://localhost:8000/api/v1/scraping', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setScraperData(data);
-        console.log('API response:', data);
-        setLoading(false);
-      })
+    const scraperTextData= scraperText(payload)
+    scraperTextData.then((response)=>
+     setScraperData(response))
       .catch(error => {
         console.error('API error:', error);
       })
       .finally(() => {
         setLoading(false);
       });
+
+    const keywordListData= keywordList(payload)
+
+    keywordListData.then((response)=>
+    setKeywordListData(response))
+     .catch(error => {
+       console.error('API error:', error);
+     })
+     .finally(() => {
+       setLoading(false);
+     });
+
+
+    const multialgoComparision= MultiAlgoComparision(payload)
+    multialgoComparision.then((response)=>
+    setMultialgo(response))
+     .catch(error => {
+       console.error('API error:', error);
+     })
+     .finally(() => {
+       setLoading(false);
+     });
   };
 
   return (
@@ -107,17 +124,17 @@ function HomePage() {
         </button>
         {loading && (
           <div className="upwards-transition">
-            <div class="center">
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
-              <div class="wave"></div>
+            <div className="center">
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
+              <div className="wave"></div>
             </div>
           </div>
         )}
