@@ -7,6 +7,7 @@ import scraperText from '../../api/scraperText';
 import MultiAlgoComparision from "../../api/multiAlgo";
 import keywordList from "../../api/keyword";
 import KeywordListFrame from './keywordListFrame'
+import AlgoComparision from './algoComparision'
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -14,7 +15,7 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
-
+  
   const [multialgo, setMultialgo] = useState("");
 
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -141,6 +142,7 @@ function HomePage() {
         )}
         {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
         {keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
+        {multialgo &&<AlgoComparision/>}
 
         <button className="downloadButton" onClick={handleDownload}>
           Download
