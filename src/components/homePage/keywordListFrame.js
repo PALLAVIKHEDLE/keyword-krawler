@@ -1,26 +1,50 @@
 import { Chart as ChartJS, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
 import { Bubble } from 'react-chartjs-2';
-import faker from 'faker'
+import faker from 'faker';
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
+if (!ChartJS?.plugins?.getPlugin('customLabels')) {
+  ChartJS.register({
+    id: 'customLabels',
+    afterDatasetsDraw: (chart) => {
+      const ctx = chart.ctx;
+      const customLabels = chart.options.plugins.customLabels;
+
+      if (customLabels && customLabels.labels) {
+        customLabels.labels.forEach((label, index) => {
+          const dataset = chart.data.datasets[0];
+          const meta = chart.getDatasetMeta(0);
+          const point = meta.data[index].getCenterPoint();
+
+          // Draw the label at the center of each bubble
+          ctx.fillStyle = 'black'; // Set label color
+          ctx.font = '12px Arial'; // Set label font
+          ctx.textAlign = 'center';
+          ctx.fillText(label.text, point.x, point.y);
+        });
+      }
+    },
+  });
+}
+
 const KeywordBubbleChart = ({ keywordListData }) => {
-  const bubbleData = keywordListData.topKeywordListings.map(item => ({
+  const bubbleData = keywordListData.topKeywordListings.map((item) => ({
     r: item.count,
     original:item.original
-    
+
   }));
 
   const data = {
     datasets: [
       {
         label: 'Keyword Dataset',
-        data: bubbleData.map(item => ({
-            x: faker.datatype.number({ min: -100, max: 100 }),
-            y: faker.datatype.number({ min: -100, max: 100 }),
-            r: item.r,
-            
-          })),
+        data: bubbleData.map((item) => ({
+          x: faker.datatype.number({ min: -100, max: 100 }),
+          y: faker.datatype.number({ min: -100, max: 100 }),
+          r: item.r,
+
+        })),
         backgroundColor: (context) => {
           const count = context.dataset.data[context.dataIndex].r;
           if (count > 65) {
@@ -45,19 +69,25 @@ const KeywordBubbleChart = ({ keywordListData }) => {
         beginAtZero: true,
       },
     },
-   
+
     plugins: {
-        tooltip: {
+      customLabels: {
+        labels: bubbleData.map((item) => ({
+          text: item.original,
+        })),
+      },
+      tooltip: {
         callbacks: {
           label: (context) => {
+            const label = context.dataset.label || '';
             const original = bubbleData[context.dataIndex].original;
-            return `Original: ${original}`;
+            return `${label}: ${original}`;
           },
         },
       },
-      },
-    };
+    },
+  };
 
- return <Bubble options={options} data={data} style={{margin:'6%'}} />;
+  return <Bubble options={options} data={data} style={{ margin: '6%' }} />;
 };
 export default KeywordBubbleChart;
