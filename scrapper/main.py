@@ -84,8 +84,8 @@ async def root():
 @app.post('/api/v1/multialgo/')
 async def root():
     time.sleep(6)
-    return {
-    "data": [
+   
+    return {"data": [
         {
             "algoName": "algo1",
             "algoExecutionTime": 0.893473,
@@ -93,26 +93,27 @@ async def root():
         },
         {
             "algoName": "algo2",
-            "algoExecutionTime": 0.893473,
+            "algoExecutionTime": 0.683473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo3",
-            "algoExecutionTime": 0.893473,
+            "algoExecutionTime": 0.763473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo4",
-            "algoExecutionTime": 0.893473,
+            "algoExecutionTime": 0.573473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
-                {
+        {
             "algoName": "algo5",
-            "algoExecutionTime": 0.892373,
+            "algoExecutionTime": 0.422373,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
-        }
-    ]
+        },
+    ],
 }
+ 
     
 
 
