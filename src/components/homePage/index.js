@@ -15,7 +15,7 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
-  
+
   const [multialgo, setMultialgo] = useState("");
 
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -101,7 +101,7 @@ function HomePage() {
   return (
     <div id="pdf-container" className={`container ${!loading && scrollPosition > 200 ? 'move-up' : ''}`}>
          <div>
-        <h1   className="textStyle">Keyword-Krwaler</h1>
+        <h1   className="textStyle">Keyword-Krawler</h1>
         <div className="inputContainer">
           <input
             type="text"
@@ -122,7 +122,7 @@ function HomePage() {
           </select>
         </div>
         <button className="centeredButton" onClick={handleSubmit}>
-          Crawl
+          Krawl
         </button>
         {loading && (
           <div className="upwards-transition">
@@ -142,11 +142,11 @@ function HomePage() {
         )}
         {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
         {keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
-        {multialgo &&<AlgoComparision/>}
+        {multialgo &&<AlgoComparision multialgo={multialgo}/>}
 
-        <button className="downloadButton" onClick={handleDownload}>
+        {/* <button className="downloadButton" onClick={handleDownload}>
           Download
-        </button>
+        </button> */}
       </div>
     </div>
   );
