@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 import ScraperTextFrame from "./scraperTextFrame";
-import "./animation.css"
+import "./animation.css";
 import html2pdf from 'html2pdf.js';
 import scraperText from '../../api/scraperText';
 import MultiAlgoComparision from "../../api/multiAlgo";
 import keywordList from "../../api/keyword";
-import KeywordListFrame from './keywordListFrame'
-import AlgoComparision from './algoComparision'
-import TableComponent from './tableComponent'
+import KeywordListFrame from './keywordListFrame';
+import AlgoComparision from './algoComparision';
+import TableComponent from './tableComponent';
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -16,16 +16,21 @@ function HomePage() {
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
-
   const [multialgo, setMultialgo] = useState("");
-
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollUp, setScrollUp] = useState(false);
+  const [resetScroll, setResetScroll] = useState(false);
 
   useEffect(() => {
     const container = document.getElementById("pdf-container");
 
     const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+      if (resetScroll) {
+        setScrollUp(false);
+        setResetScroll(false);
+      } else {
+        setScrollPosition(window.scrollY);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -33,10 +38,7 @@ function HomePage() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-  
-  
-  
+  }, [resetScroll]);
 
   const handleUrlChange = (event) => {
     const inputValue = event.target.value;
@@ -48,7 +50,6 @@ function HomePage() {
 
     // }
     setUrlInput(event.target.value);
-
   };
 
   const handleAlgorithmChange = (event) => {
@@ -56,9 +57,14 @@ function HomePage() {
   };
 
   const handleDownload = () => {
-     // const element = document.getElementById('pdf-container'); 
+      // const element = document.getElementById('pdf-container'); 
     // html2pdf(element);
     window.print();
+  };
+
+  const handleScrollUp = () => {
+    setScrollUp(true);
+    setResetScroll(true);
   };
 
   const handleSubmit = () => {
@@ -75,9 +81,9 @@ function HomePage() {
     };
 
     console.log("Form submitted:", payload);
-    const scraperTextData= scraperText(payload)
+    const scraperTextData= scraperText(payload);
     scraperTextData.then((response)=>
-     setScraperData(response))
+      setScraperData(response))
       .catch(error => {
         console.error('API error:', error);
       })
@@ -88,30 +94,28 @@ function HomePage() {
     const keywordListData= keywordList(payload)
 
     keywordListData.then((response)=>
-    setKeywordListData(response))
-     .catch(error => {
-       console.error('API error:', error);
-     })
-     .finally(() => {
-       setLoading(false);
-     });
-
-
-    const multialgoComparision= MultiAlgoComparision(payload)
-    multialgoComparision.then((response)=>
-    setMultialgo(response))
-     .catch(error => {
-       console.error('API error:', error);
-     })
-     .finally(() => {
-       setLoading(false);
-     });
+      setKeywordListData(response))
+      .catch(error => {
+        console.error('API error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    const multialgoComparision = MultiAlgoComparision(payload);
+    multialgoComparision.then((response) =>
+      setMultialgo(response))
+      .catch(error => {
+        console.error('API error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
-    <div id="pdf-container" className={`container ${!loading && scrollPosition > 200 ? 'move-up' : ''}`}>
-         <div>
-        <h1   className="textStyle">Keyword-Krawler</h1>
+    <div id="pdf-container" className={`container ${scrollUp ? 'move-up' : ''}`}>
+      <div>
+        <h1 className="textStyle">Keyword-Krawler</h1>
         <div className="inputContainer">
           <input
             type="text"
@@ -131,10 +135,10 @@ function HomePage() {
             <option value="boyremoore">Boyre Moore</option>
           </select>
         </div>
-        <button className="centeredButton" onClick={handleSubmit}>
+        <button className="centeredButton" onClick={() => { handleSubmit(); handleScrollUp(); }}>
           Krawl
         </button>
-    </div>
+      </div>
 
         {loading && (
           <div className="upwards-transition">

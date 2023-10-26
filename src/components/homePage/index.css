@@ -28,10 +28,10 @@ html, body {
   }
   
   .move-up {
-    transform: translateY(-230px);
+    transform: translateY(-340px);
     transition: transform 1s ease-out;
   }
-  
+
   .textStyle {
     color:#FABB2E;
     text-align: center;
