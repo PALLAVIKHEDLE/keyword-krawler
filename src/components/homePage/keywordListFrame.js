@@ -35,7 +35,7 @@ const KeywordBubbleChart = ({ keywordListData }) => {
     return count % 100
   };
 
-  const bubbleData = keywordListData.topKeywordListings.map((item) => (
+  const bubbleData = keywordListData?.topKeywordListings.map((item) => (
     // console.log('item',item.originalKeyword, item.count),
     {
     // r: calculateBubbleRadius(item.count),
@@ -48,12 +48,12 @@ const KeywordBubbleChart = ({ keywordListData }) => {
     datasets: [
       {
         label: 'Keyword',
-        data: bubbleData.map((item) => ({
+        data: bubbleData?.map((item) => ({
           x: faker.datatype.number({ min: -100, max: 100 }),
           y: faker.datatype.number({ min: -100, max: 100 }),
           r: item.r,
         })),
-        backgroundColor: bubbleData.map((item) => {
+        backgroundColor: bubbleData?.map((item) => {
           if (item.r > 55) {
             return '#F2510A'; // orange
           } else if (item.r > 35) {
@@ -96,7 +96,7 @@ const KeywordBubbleChart = ({ keywordListData }) => {
        marginBottom:'4%'
       },
       customLabels: {
-        labels: bubbleData.map((item) => ({
+        labels: bubbleData?.map((item) => ({
           text: item.originalKeyword,
         })),
       },

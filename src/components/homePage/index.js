@@ -9,6 +9,7 @@ import keywordList from "../../api/keyword";
 import KeywordListFrame from './keywordListFrame';
 import AlgoComparision from './algoComparision';
 import TableComponent from './tableComponent';
+import RecommendationList from "../../api/recommendation";
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -17,6 +18,7 @@ function HomePage() {
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
   const [multialgo, setMultialgo] = useState("");
+  const [recommendationListData, setRecommendationListData]=useState('')
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollUp, setScrollUp] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
@@ -101,6 +103,17 @@ function HomePage() {
       .finally(() => {
         setLoading(false);
       });
+      const recommendationList=RecommendationList(payload);
+      recommendationList.then((response) =>
+      setRecommendationListData(response))
+      .catch(error => {
+        console.error('API error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+      
     const multialgoComparision = MultiAlgoComparision(payload);
     multialgoComparision.then((response) =>
       setMultialgo(response))
@@ -110,6 +123,8 @@ function HomePage() {
       .finally(() => {
         setLoading(false);
       });
+
+
   };
 
   return (
@@ -157,11 +172,11 @@ function HomePage() {
           </div>
         )}
         {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
-        {keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
+        {scraperData&&keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
       
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <div style={{ flex: 1 }}>
-        {keywordListData && <TableComponent/>}
+        {keywordListData&&recommendationListData && <TableComponent recommendationListData={recommendationListData}/>}
       </div>
       <div style={{ flex: 1 }}>
         {multialgo && <AlgoComparision multialgo={multialgo}/>}

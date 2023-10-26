@@ -19,7 +19,7 @@ if (!ChartJS?.plugins?.getPlugin('customLabels')) {
       const customLabels = chart.options.plugins.customLabels;
 
       if (customLabels && customLabels.labels) {
-        customLabels.labels.forEach((label, index) => {
+        customLabels?.labels.forEach((label, index) => {
           const dataset = chart.data.datasets[0];
           const meta = chart.getDatasetMeta(0);
           const point = meta.data[index].getCenterPoint();
@@ -36,16 +36,16 @@ if (!ChartJS?.plugins?.getPlugin('customLabels')) {
 }
 
 const AlgoComparision = ({ multialgo }) => {
-  const algoData = multialgo.data.map(item => ({
+  const algoData = multialgo?.data.map(item => ({
     algoName: item.algoName,
     algoExecutionTime: item.algoExecutionTime,
   }));
 
   const data = {
-    labels: algoData.map(item => item.algoName),
+    labels: algoData?.map(item => item.algoName),
     datasets: [
       {
-        data: algoData.map(item => item.algoExecutionTime),
+        data: algoData?.map(item => item.algoExecutionTime),
         borderColor: 'white',
         backgroundColor: '#FABB2E',
         // barPercentage:1 , 
@@ -92,7 +92,7 @@ const AlgoComparision = ({ multialgo }) => {
         },
       },
       customLabels: {
-        labels: algoData.map((item) => ({
+        labels: algoData?.map((item) => ({
           text: item.algoName,
         })),
       },

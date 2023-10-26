@@ -1,7 +1,7 @@
- async function scraperText(payload) {
+async function RecommendationList(payload) {
     let final_response
     try {
-      const response =  await fetch('http://34.105.100.197/api/v1/scraping/', {
+      const response =  await fetch('http://34.105.100.197/api/v1/keyword-recommendations/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -11,8 +11,6 @@
       .then((response) => {
         if (response.status==200) {
           return response.json();
-        }else {
-          throw new Error("Failed to load page, status:"+response.status);
         }
       })
       .then(data => {
@@ -22,8 +20,8 @@
       })
       return final_response;
     } catch (error) {
-      alert("Error fetching scraper text:", error);
+      console.error("Error fetching scraper text:", error);
       return [];
     }
   }
-  export default scraperText;
+  export default RecommendationList;
