@@ -1,7 +1,6 @@
 import React from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
 
 ChartJS.register(
   CategoryScale,
@@ -22,34 +21,49 @@ const AlgoComparision = ({ multialgo }) => {
     labels: algoData.map(item => item.algoName),
     datasets: [
       {
-        label: 'Execution Time',
         data: algoData.map(item => item.algoExecutionTime),
         borderColor: 'white',
-        backgroundColor: 'rgba(255, 255, 0, 0.5)',
+        backgroundColor: '#FABB2E',
+        barPercentage:1 , 
+        categoryPercentage: 0.5, 
       },
     ],
   };
 
   const options = {
-    indexAxis: 'y',
+    indexAxis: 'x',
     elements: {
       bar: {
         borderWidth: 2,
+        borderRadius: 5, // Add border radius for smaller bars
       },
     },
     responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true, 
+      },
+      x: {
+        beginAtZero: true, 
+        ticks: {
+          color: 'white',
+        },
+      },
+   
+    },
     plugins: {
       legend: {
-        position: 'right',
+        display: false, // Hide legend
       },
       title: {
         display: true,
         text: 'String Algorithm Comparison',
+        color:'white'
       },
     },
   };
 
-  return <Bar options={options} data={data} style={{ margin: '10%' }} />;
+  return <Bar options={options} data={data} style={{ margin: '30%',marginTop:'10%' }} />;
 };
 
 export default AlgoComparision;
