@@ -1,7 +1,7 @@
 async function multialgoComparision(payload) {
     let final_response
     try {
-      const response =  await fetch('http://localhost:8000/api/v1/multialgo', {
+      const response =  await fetch('http://34.105.100.197/api/v1/multi-algo/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

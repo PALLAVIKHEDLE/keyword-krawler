@@ -1,7 +1,7 @@
  async function scraperText(payload) {
     let final_response
     try {
-      const response =  await fetch('http://localhost:8000/api/v1/scraping', {
+      const response =  await fetch('http://34.105.100.197/api/v1/scraping/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,7 @@
       })
       return final_response;
     } catch (error) {
-      console.error("Error fetching scraper text:", error);
+      alert("Error fetching scraper text:", error);
       return [];
     }
   }

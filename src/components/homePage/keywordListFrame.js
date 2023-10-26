@@ -31,13 +31,17 @@ if (!ChartJS?.plugins?.getPlugin('customLabels')) {
 const KeywordBubbleChart = ({ keywordListData }) => {
   const calculateBubbleRadius = (count) => {
     // Adjust this factor as needed to control the scaling of bubbles
-    const scalingFactor = 9;
-    return Math.sqrt(count) * scalingFactor;
+    const scalingFactor = 4;
+    return count % 100
   };
 
-  const bubbleData = keywordListData.topKeywordListings.map((item) => ({
+  const bubbleData = keywordListData.topKeywordListings.map((item) => (
+    // console.log('item',item.originalKeyword, item.count),
+    {
+    // r: calculateBubbleRadius(item.count),
     r: calculateBubbleRadius(item.count),
-    original: item.original,
+
+    originalKeyword: item.originalKeyword,
   }));
 
   const data = {
@@ -50,11 +54,11 @@ const KeywordBubbleChart = ({ keywordListData }) => {
           r: item.r,
         })),
         backgroundColor: bubbleData.map((item) => {
-          if (item.r > 65) {
-            return '#FABB2E'; // yellow
-          } else if (item.r > 35) {
+          if (item.r > 55) {
             return '#F2510A'; // orange
-          }else if(item.r>25){
+          } else if (item.r > 35) {
+            return '#FABB2E'; // yellow
+          }else if(item.r > 10){
             return '#5b209a'; //purple
           }else {
             return '#287e29'; // green
@@ -93,14 +97,14 @@ const KeywordBubbleChart = ({ keywordListData }) => {
       },
       customLabels: {
         labels: bubbleData.map((item) => ({
-          text: item.original,
+          text: item.originalKeyword,
         })),
       },
       tooltip: {
         callbacks: {
           label: (context) => {
             const label = context.dataset.label || '';
-            const original = bubbleData[context.dataIndex].original;
+            const original = bubbleData[context.dataIndex].originalKeyword;
             return `${label}: ${original}`;
           },
         },

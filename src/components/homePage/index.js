@@ -12,7 +12,7 @@ import TableComponent from './tableComponent';
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("robinkarp");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("rabin_karp");
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
@@ -77,7 +77,7 @@ function HomePage() {
 
     const payload = {
       url: urlInput,
-      algorithm: selectedAlgorithm,
+      algoChoice: selectedAlgorithm,
     };
 
     console.log("Form submitted:", payload);
@@ -129,7 +129,7 @@ function HomePage() {
             value={selectedAlgorithm}
             onChange={handleAlgorithmChange}
           >
-            <option value="robinkarp">Robin Karp</option>
+            <option value="rabin_karp">Rabin Karp</option>
             <option value="kmp">Knuth Morris</option>
             <option value="naive">Naive</option>
             <option value="boyremoore">Boyre Moore</option>
