@@ -43,7 +43,7 @@ import json
 from scrapper import logger
 
 def get_redis_connection():
-    return redis.Redis(host="localhost", port=6379, db=0)
+    return redis.Redis(host="redis", port=6379, db=0)
 
 def push_to_redis(key, response):
     logger.info("Pushing to Cache Store")
