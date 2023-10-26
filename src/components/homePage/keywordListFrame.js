@@ -51,11 +51,11 @@ const KeywordBubbleChart = ({ keywordListData }) => {
         })),
         backgroundColor: bubbleData.map((item) => {
           if (item.r > 65) {
-            return 'rgba(255, 255, 0, 0.5)'; // yellow
+            return '#FABB2E'; // yellow
           } else if (item.r > 35) {
-            return 'rgba(255, 165, 0, 0.5)'; // orange
+            return '#F2510A'; // orange
           } else {
-            return 'rgba(53, 162, 235, 0.5)'; // blue
+            return '#1B00FF'; // blue
           }
         }),
       },
@@ -67,13 +67,23 @@ const KeywordBubbleChart = ({ keywordListData }) => {
       x: {
         type: 'linear',
         position: 'bottom',
+        display:false
       },
       y: {
         beginAtZero: true,
+        display:false
       },
     },
 
     plugins: {
+      legend: {
+        display: false, // Hide legend
+      },
+      title: {
+        display: true,
+        text: 'Word Frequency Bubble',
+        color:'white'
+      },
       customLabels: {
         labels: bubbleData.map((item) => ({
           text: item.original,

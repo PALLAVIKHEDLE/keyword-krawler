@@ -8,7 +8,7 @@
   .wave {
     width: 5px;
     height: 100px;
-    background: linear-gradient(45deg, yellow, #fff);
+    background: linear-gradient(45deg, #FABB2E, #fff);
     margin: 10px;
     animation: wave 1s linear infinite;
     border-radius: 20px;
