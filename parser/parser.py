@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -268,7 +268,7 @@ def get_keywords(algo_choice, scrapped_content):
 def get_top_keywords(keywords_and_count):
     keywords_and_count.sort(key=lambda x: x["count"], reverse=True)
     try:
-        return keywords_and_count[:20]
+        return keywords_and_count[:12]
     except Exception as exc:
         return exc
 # ******************************************************************************************************************************************
@@ -281,6 +281,7 @@ async def keyword_api(request: Request):
     payload = await request.json()
     url = payload['url'].strip('/') if payload['url'].endswith('/') else payload['url']
     try:
+        wait_iterator = 0
         while True:
             data = check_in_redis(url)
             if data:
@@ -292,7 +293,10 @@ async def keyword_api(request: Request):
                 break
             else:
                 logger.info("Let's give that scrapper engine, a tad bit more time")
-                time.sleep(10)
+                if wait_iterator > 3:
+                    raise HTTPException(status_code=503, detail="Scrapper Engine is taking too long, please try again later")
+                wait_iterator += 1
+                time.sleep(5)
         logger.info("Calling for parsing")
         keywords, execution_time = get_keywords(payload["algoChoice"],data["scrapedContent"])
         final_response = { "topKeywordListings": get_top_keywords(keywords), "alogirthmExecutionTime": execution_time}
@@ -300,7 +304,7 @@ async def keyword_api(request: Request):
         push_to_redis(url + payload["algoChoice"],final_response)
         return final_response
     except Exception as e:
-        return {"503": f"{e}"}
+        raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
 
 @app.post('/api/v1/keyword-recommendations/')
 async def keyword_recommendations_api(request: Request):
@@ -323,9 +327,9 @@ async def keyword_recommendations_api(request: Request):
                     push_to_redis(url + payload["algoChoice"],existing_algo_data)
                     return existing_algo_data
             else:
-                return {"503": "Please run the keyword algo first"}
+                raise HTTPException(status_code=503, detail="Scrapper Engine is taking too long, please try again later")
     except Exception as e:
-        return {"503": f"{e}"}
+        raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
 
 @app.post('/api/v1/multi-algo/')
 async def multialgo_api(request: Request):
@@ -333,6 +337,7 @@ async def multialgo_api(request: Request):
     url = payload['url'].strip('/') if payload['url'].endswith('/') else payload['url']
     algo_choices = ["rabin_karp", "naive", "kmp"]
     final_response = {"data": []}
+    wait_iterator = 0
     try:
         while True:
             data = check_in_redis(url)
@@ -345,7 +350,10 @@ async def multialgo_api(request: Request):
                 break
             else:
                 logger.info("Let's give that scrapper engine, a tad bit more time")
-                time.sleep(10)
+                if wait_iterator > 3:
+                    raise HTTPException(status_code=503, detail="Scrapper Engine is taking too long, please try again later")
+                wait_iterator += 1
+                time.sleep(5)
         for each_algo in algo_choices:
                 logger.info("Checking if said algo exists")
                 logger.info(f"Running for {each_algo}")
@@ -364,7 +372,7 @@ async def multialgo_api(request: Request):
         push_to_redis(url + "multi-algo",final_response)
         return final_response
     except Exception as e:
-        return {"503": f"{e}"}
+        raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
 
 
 # ************************************************************************************************************************************

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 import requests
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -134,14 +134,17 @@ async def root(request: Request):
     url = payload['url'].strip('/') if payload['url'].endswith('/') else payload['url']
     try:
         cacheExists, scrapped_urls, scrapped_text = scrape_all(url)
+
+        final_text, removed_text = remove_pronouns_nouns(scrapped_text)
+        response = { "scrapedContent": final_text, "scrappedUrls": scrapped_urls, "removedContent": removed_text, "returnedFromCache": True if cacheExists else False }
+        if not cacheExists:
+            logger.info("That's new to me, populating Cache Store right away!")
+            push_to_redis(url,response)
+        return response
+
     except Exception as e:
-        return {"503": f"{e}"}
-    final_text, removed_text = remove_pronouns_nouns(scrapped_text)
-    response = { "scrapedContent": final_text, "scrappedUrls": scrapped_urls, "removedContent": removed_text, "returnedFromCache": True if cacheExists else False }
-    if not cacheExists:
-        logger.info("That's new to me, populating Cache Store right away!")
-        push_to_redis(url,response)
-    return response
+        logger.error(f"Error while scraping: {e}")
+        raise HTTPException(status_code=500, detail="Error while scraping")
 
 # ************************************************************************************************************************************************
 
