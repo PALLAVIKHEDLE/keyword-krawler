@@ -8,6 +8,7 @@ import MultiAlgoComparision from "../../api/multiAlgo";
 import keywordList from "../../api/keyword";
 import KeywordListFrame from './keywordListFrame'
 import AlgoComparision from './algoComparision'
+import TableComponent from './tableComponent'
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -38,7 +39,16 @@ function HomePage() {
   
 
   const handleUrlChange = (event) => {
+    const inputValue = event.target.value;
+
+    // const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+
+    // if (urlRegex.test(inputValue) || inputValue === '') {
+    //   setUrlInput(inputValue);
+
+    // }
     setUrlInput(event.target.value);
+
   };
 
   const handleAlgorithmChange = (event) => {
@@ -142,7 +152,16 @@ function HomePage() {
         )}
         {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
         {keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
-        {multialgo &&<AlgoComparision multialgo={multialgo}/>}
+      
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+      <div style={{ flex: 1 }}>
+        {keywordListData && <TableComponent/>}
+      </div>
+      <div style={{ flex: 1 }}>
+        {multialgo && <AlgoComparision multialgo={multialgo}/>}
+      </div>
+    
+    </div>
 
         {/* <button className="downloadButton" onClick={handleDownload}>
           Download

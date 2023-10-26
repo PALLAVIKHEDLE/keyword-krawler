@@ -27,17 +27,17 @@ async def root():
     response = {"topKeywordListings": [
             {
             "original": "first",
-            "count": 45,
+            "count": 25,
             "recommendation": "FirstRec"
             },
             {
             "original": "second",
-            "count": 55,
+            "count": 4,
             "recommendation": "SecondRec"
             },
             {
             "original": "third",
-            "count": 56,
+            "count": 16,
             "recommendation": "ThirdRec"
             },
             {
@@ -47,12 +47,12 @@ async def root():
             },
             {
             "original": "fifth",
-            "count": 95,
+            "count": 25,
             "recommendation": "FifthRec"
             },
             {
             "original": "six",
-            "count": 82,
+            "count": 22,
             "recommendation": "SixRec"
             },
             {
@@ -62,7 +62,7 @@ async def root():
             },
             {
             "original": "eight",
-            "count": 23,
+            "count": 103,
             "recommendation": "EightRec"
             },
             {

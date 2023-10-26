@@ -24,24 +24,27 @@ const AlgoComparision = ({ multialgo }) => {
         data: algoData.map(item => item.algoExecutionTime),
         borderColor: 'white',
         backgroundColor: '#FABB2E',
-        barPercentage:1 , 
-        categoryPercentage: 0.5, 
+        // barPercentage:1 , 
+        // categoryPercentage: 0.5, 
       },
     ],
   };
 
   const options = {
-    indexAxis: 'x',
+    indexAxis: 'y',
     elements: {
       bar: {
         borderWidth: 2,
-        borderRadius: 5, // Add border radius for smaller bars
+        borderRadius: 5, 
       },
     },
     responsive: true,
     scales: {
       y: {
         beginAtZero: true, 
+        ticks: {
+          color: 'white',
+        },
       },
       x: {
         beginAtZero: true, 
@@ -63,7 +66,8 @@ const AlgoComparision = ({ multialgo }) => {
     },
   };
 
-  return <Bar options={options} data={data} style={{ margin: '30%',marginTop:'10%' }} />;
+
+  return <Bar options={options} data={data} style={{ margin: '20%',marginTop:'10%', marginRight:'0%' }} />;
 };
 
 export default AlgoComparision;

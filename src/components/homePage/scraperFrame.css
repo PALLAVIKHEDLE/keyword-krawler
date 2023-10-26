@@ -17,12 +17,12 @@
 }
 
 .scraperData::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 .scraperData::-webkit-scrollbar-thumb {
   background-color: #FABB2E; /* Color of the thumb */
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 .scraperData::-webkit-scrollbar-track {

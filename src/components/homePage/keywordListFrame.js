@@ -54,8 +54,10 @@ const KeywordBubbleChart = ({ keywordListData }) => {
             return '#FABB2E'; // yellow
           } else if (item.r > 35) {
             return '#F2510A'; // orange
-          } else {
-            return '#1B00FF'; // blue
+          }else if(item.r>25){
+            return '#5b209a'; //purple
+          }else {
+            return '#287e29'; // green
           }
         }),
       },
