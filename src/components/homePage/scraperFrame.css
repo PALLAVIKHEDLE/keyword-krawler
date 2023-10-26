@@ -1,27 +1,30 @@
 .scrapercontainer {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .scraperData {
-    color: white;
-    border: 2px solid yellow;
-    padding: 10px;
-    max-width: 80%;
-    text-align: center;
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 60vh; /* Set a maximum height for scrolling */
-  }
-  
-  .h1textStyle {
-    color: yellow;
-    font-size: 2em;
-  }
-  
-  .scrollable {
-    overflow-y: auto;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.scraperData {
+  color: white;
+  border: 2px solid #FABB2E;
+  padding: 10px;
+  max-width: 80%;
+  text-align: center;
+  overflow-y: auto;
+  max-height: 50vh;
+}
+
+.scraperData::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scraperData::-webkit-scrollbar-thumb {
+  background-color: #FABB2E; /* Color of the thumb */
+  border-radius: 5px;
+}
+
+.scraperData::-webkit-scrollbar-track {
+  background-color: transparent; /* Color of the track */
+}
