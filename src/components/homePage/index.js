@@ -134,6 +134,8 @@ function HomePage() {
         <button className="centeredButton" onClick={handleSubmit}>
           Krawl
         </button>
+    </div>
+
         {loading && (
           <div className="upwards-transition">
             <div className="center">
@@ -154,14 +156,13 @@ function HomePage() {
         {keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
       
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-      <div style={{ flex: 1 }}>
+          <div style={{ flex: 1 }}>
         {keywordListData && <TableComponent/>}
       </div>
       <div style={{ flex: 1 }}>
         {multialgo && <AlgoComparision multialgo={multialgo}/>}
       </div>
     
-    </div>
 
         {/* <button className="downloadButton" onClick={handleDownload}>
           Download
