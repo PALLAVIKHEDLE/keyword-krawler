@@ -19,7 +19,7 @@ if (!ChartJS?.plugins?.getPlugin('customLabels')) {
 
           // Draw the label at the center of each bubble
           ctx.fillStyle = 'black'; // Set label color
-          ctx.font = '12px Arial'; // Set label font
+          ctx.font = '13px Arial'; // Set label font
           ctx.textAlign = 'center';
           ctx.fillText(label.text, point.x, point.y);
         });
@@ -43,7 +43,7 @@ const KeywordBubbleChart = ({ keywordListData }) => {
   const data = {
     datasets: [
       {
-        label: 'Keyword Dataset',
+        label: 'Keyword',
         data: bubbleData.map((item) => ({
           x: faker.datatype.number({ min: -100, max: 100 }),
           y: faker.datatype.number({ min: -100, max: 100 }),
@@ -84,7 +84,12 @@ const KeywordBubbleChart = ({ keywordListData }) => {
       title: {
         display: true,
         text: 'Word Frequency Bubble',
-        color:'white'
+        color: 'white',
+        font: {
+          size: 26, 
+          weight: 'bold', 
+        },
+       marginBottom:'4%'
       },
       customLabels: {
         labels: bubbleData.map((item) => ({
@@ -103,6 +108,6 @@ const KeywordBubbleChart = ({ keywordListData }) => {
     },
   };
 
-  return <Bubble options={options} data={data} style={{ margin: '6%' }} />;
+  return <Bubble options={options} data={data} style={{ margin: '6%', marginTop:'3%' }} />;
 };
 export default KeywordBubbleChart;

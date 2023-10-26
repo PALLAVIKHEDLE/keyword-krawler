@@ -11,6 +11,30 @@ ChartJS.register(
   Legend
 );
 
+if (!ChartJS?.plugins?.getPlugin('customLabels')) {
+  ChartJS.register({
+    id: 'customLabels',
+    afterDatasetsDraw: (chart) => {
+      const ctx = chart.ctx;
+      const customLabels = chart.options.plugins.customLabels;
+
+      if (customLabels && customLabels.labels) {
+        customLabels.labels.forEach((label, index) => {
+          const dataset = chart.data.datasets[0];
+          const meta = chart.getDatasetMeta(0);
+          const point = meta.data[index].getCenterPoint();
+
+          // Draw the label at the center of each bubble
+          ctx.fillStyle = 'black'; // Set label color
+          ctx.font = '13px Arial'; // Set label font
+          ctx.textAlign = 'center';
+          ctx.fillText(label.text, point.x, point.y);
+        });
+      }
+    },
+  });
+}
+
 const AlgoComparision = ({ multialgo }) => {
   const algoData = multialgo.data.map(item => ({
     algoName: item.algoName,
@@ -61,13 +85,33 @@ const AlgoComparision = ({ multialgo }) => {
       title: {
         display: true,
         text: 'String Algorithm Comparison',
-        color:'white'
+        color: 'white',
+        font: {
+          size: 16, 
+          weight: 'bold', 
+        },
+      },
+      customLabels: {
+        labels: algoData.map((item) => ({
+          text: item.algoName,
+        })),
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const label = context.dataset.label || '';
+            // const name = algoData[context.dataIndex].algoName;
+            // return `${label}: ${name}`;
+            return `${label}`
+
+          },
+        },
       },
     },
   };
 
 
-  return <Bar options={options} data={data} style={{ margin: '20%',marginTop:'10%', marginRight:'0%' }} />;
+  return <Bar options={options} data={data} style={{ marginLeft: '18%',marginTop:'10%' }} />;
 };
 
 export default AlgoComparision;
