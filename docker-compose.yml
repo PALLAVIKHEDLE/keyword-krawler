@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  frontend:
+    image: krravindra/algo-frontend:latest
+    ports:
+      - 3000:3000
+    # volumes:
+    #   - ./:/app
+    # working_dir: /app
+    # command: sh -c "npm i && npm start"
+
+  scrapper:
+    image: krravindra/scrapper:latest
+    ports:
+      - 8000:8000
+    # volumes:
+    #   - ./:/app
+    # working_dir: /app/scrapper
+    # command: sh -c "pip3 install -r requirements.txt && python3 main.py"
+
+  parser:
+    image: krravindra/parser:latest
+    ports:
+      - 8001:8001
+    # volumes:
+    #   - ./:/app
+    # working_dir: /app/parser
+    # command: sh -c "pip3 install -r requirements.txt && python3 parser.py"
+  
+
+  analyzer:
+    image: krravindra/analyzer:latest
+    ports:
+      - 8002:8002
+
+  redis:
+    image: redis:6.2
+    ports:
+      - 6379:6379
+
+
+  proxy:
+    image: nginx:latest
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - ./app.conf:/etc/nginx/conf.d/app.conf
+    - ./final.crt:/etc/nginx/final.crt
+    - ./server.key:/etc/nginx/server.key
