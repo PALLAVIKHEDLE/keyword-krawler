@@ -100,6 +100,7 @@ function HomePage() {
       })
       .finally(() => {
         console.log("Finalised");
+        setLoading(false);
       });
 
     const keywordListData = keywordList(payload);

@@ -108,7 +108,7 @@ const AlgoComparision = ({ multialgo }) => {
   };
 
 
-  return <Bar options={options} data={data} style={{ marginRight:'10%',marginLeft:'13%', marginTop: "10%" }} />;
+  return <Bar options={options} data={data} style={{ marginRight:'10%',marginLeft:'13%', marginTop: "10%" , marginBottom: "10%"}} />;
 };
 
 export default AlgoComparision;
