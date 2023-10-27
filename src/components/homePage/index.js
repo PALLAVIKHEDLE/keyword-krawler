@@ -14,7 +14,6 @@ import AnalyzerList from "../../api/analyzer";
 import InsightTable from "./inSight";
 import WordCloud from "./wordCloud";
 
-
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("rabin_karp");
@@ -49,14 +48,6 @@ function HomePage() {
 
   const handleUrlChange = (event) => {
     const inputValue = event.target.value;
-    // if(!inputValue)return false
-
-    // const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-
-    // if (urlRegex.test(inputValue) || inputValue === '') {
-    //   setUrlInput(inputValue);
-
-    // }
     setUrlInput(event.target.value);
   };
 
@@ -64,13 +55,9 @@ function HomePage() {
     setSelectedAlgorithm(event.target.value);
   };
 
-
   const handleDownload = () => {
-      // const element = document.getElementById('pdf-container');
-    // html2pdf(element);
     window.print();
   };
-
 
   const handleScrollUp = () => {
     setScrollUp(true);
@@ -86,7 +73,16 @@ function HomePage() {
     setLoading(true);
 
     if (urlInput.trim() === "") {
+      setScraperData("");
+      setKeywordListData("");
+      setMultialgo("");
+      setRecommendationListData("");
+      setAnalyzerData("");
+      setLoading(false);
       alert("Please enter a URL");
+
+      window.location.reload();
+
       return;
     }
 
@@ -133,7 +129,7 @@ function HomePage() {
         console.error("API error:", error);
       })
       .finally(() => {
-        console.log("Finalised");
+        setLoading(false);
       });
 
     const urlAnalyzerData = AnalyzerList(payload);
@@ -143,7 +139,7 @@ function HomePage() {
         console.error("API error:", error);
       })
       .finally(() => {
-        setLoading(false);
+        console.log("Finalised");
       });
   };
 
@@ -201,7 +197,7 @@ function HomePage() {
           </div>
         </div>
       )}
-      {scraperData && (
+      {scraperData && scraperData !== "" && (
         <ScraperTextFrame
           url={urlInput}
           scraperData={scraperData}
@@ -212,31 +208,54 @@ function HomePage() {
         <KeywordListFrame keywordListData={keywordListData} />
       )}
 
-      <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-          <div style={{ width: "40%" }}>
-            {scraperData && keywordListData && recommendationListData && (
-              <TableComponent recommendationListData={recommendationListData} />
+      {scraperData && keywordListData && recommendationListData && (
+        <div
+          style={{
+            color: "white",
+            textAlign: "center",
+            background: "transparent",
+            width: "97%",
+            padding: "2px",
+            broder: "20px solid white",
+          }}
+        >
+          <h4 style={{ textAlign: "center", marginTop: "1%" }}>
+            {" "}
+            Krawler's Important Notes{" "}
+          </h4>
+        </div>
+      )}
+      <div style={{ display: "flex", flexDirection: "row", width: "90%" }}>
+        <div style={{ width: "45%", minHeight: "60vw", maxHeigh: "60vw" }}>
+          {scraperData && keywordListData && recommendationListData && (
+            <TableComponent recommendationListData={recommendationListData} />
+          )}
+        </div>
+        <div style={{ width: "55%" }}>
+          <div style={{ maxHeight: "40vw", width: "100%", overflow: "auto" }}>
+            {scraperData && analyzerData && recommendationListData && (
+              <InsightTable analyzerData={analyzerData} />
             )}
           </div>
-        <div style={{ width: "60%" }}>
-          <div style={{ maxHeight: "20%", width: "100%", overflow: "auto", marginLeft:'10%',marginRight:'10%' }}>
-              {scraperData && analyzerData && (
-                <WordCloud analyzerData={analyzerData} />
-              )}
-            </div>
-            <div style={{ maxHeight: "68%", width: "100%", overflow: "auto" }}>
-              {scraperData && analyzerData && (
-                <InsightTable analyzerData={analyzerData} />
-              )}
-            </div>
+          <div
+            style={{
+              maxHeight: "20vw",
+              minHeight: "20vw",
+              width: "100%",
+              marginLeft: "2%",
+              marginTop: "1%",
+            }}
+          >
+            {scraperData && analyzerData && recommendationListData && (
+              <WordCloud analyzerData={analyzerData} />
+            )}
+          </div>
         </div>
       </div>
-      {scraperData && keywordListData && multialgo && (
-        <AlgoComparision multialgo={multialgo} />
-      )}
-
-     {multialgo && keywordListData&& <button className="downloadButton" onClick={handleDownload}></button>
-}
+      {scraperData &&
+        keywordListData &&
+        multialgo &&
+        recommendationListData && <AlgoComparision multialgo={multialgo} />}
     </div>
   );
 }

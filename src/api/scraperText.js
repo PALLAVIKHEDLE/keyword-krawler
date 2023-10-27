@@ -22,7 +22,8 @@
       })
       return final_response;
     } catch (error) {
-      alert("Error fetching scraper text:", error);
+      alert("That's probably not a valid url, by the way we hate querystrings :)", error);
+      window.location.reload();
       return [];
     }
   }
