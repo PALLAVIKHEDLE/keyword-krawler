@@ -15,3 +15,9 @@ ADD . /app
 WORKDIR /app/scrapper
 RUN pip install -r requirements.txt
 CMD python scrapper.py
+
+FROM python:3.11.5-bullseye as analyzer
+ADD . /app
+WORKDIR /app/analyzer
+RUN pip install -r requirements.txt
+CMD python analyzer.py

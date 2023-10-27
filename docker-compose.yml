@@ -26,8 +26,25 @@ services:
     #   - ./:/app
     # working_dir: /app/parser
     # command: sh -c "pip3 install -r requirements.txt && python3 parser.py"
+  
+
+  analyzer:
+    image: krravindra/analyzer:latest
+    ports:
+      - 8002:8002
 
   redis:
     image: redis:6.2
     ports:
       - 6379:6379
+
+
+  proxy:
+    image: nginx:latest
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - ./app.conf:/etc/nginx/conf.d/app.conf
+    - ./final.crt:/etc/nginx/final.crt
+    - ./server.key:/etc/nginx/server.key
