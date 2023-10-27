@@ -8,8 +8,9 @@ import MultiAlgoComparision from "../../api/multiAlgo";
 import keywordList from "../../api/keyword";
 import KeywordListFrame from './keywordListFrame';
 import AlgoComparision from './algoComparision';
-import TableComponent from './tableComponent';
+import TableComponent from './recommendationTableComponent';
 import RecommendationList from "../../api/recommendation";
+import AnalyzerList from "../../api/analyzer"
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -19,6 +20,7 @@ function HomePage() {
   const [keywordListData, setKeywordListData] = useState("");
   const [multialgo, setMultialgo] = useState("");
   const [recommendationListData, setRecommendationListData]=useState('')
+  const [analyzerData, setAnalyzerData]= useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollUp, setScrollUp] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
@@ -58,11 +60,11 @@ function HomePage() {
     setSelectedAlgorithm(event.target.value);
   };
 
-  const handleDownload = () => {
-      // const element = document.getElementById('pdf-container'); 
-    // html2pdf(element);
-    window.print();
-  };
+  // const handleDownload = () => {
+  //     // const element = document.getElementById('pdf-container'); 
+  //   // html2pdf(element);
+  //   window.print();
+  // };
 
   const handleScrollUp = () => {
     setScrollUp(true);
@@ -124,6 +126,15 @@ function HomePage() {
         setLoading(false);
       });
 
+      const urlAnalyzerData=AnalyzerList(payload)
+      urlAnalyzerData.then((response) =>
+      setAnalyzerData(response))
+      .catch(error => {
+        console.error('API error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
   };
 
@@ -147,7 +158,9 @@ function HomePage() {
             <option value="rabin_karp">Rabin Karp</option>
             <option value="kmp">Knuth Morris</option>
             <option value="naive">Naive</option>
-            <option value="boyremoore">Boyre Moore</option>
+            <option value="suffix_tree">Suffix Tree</option>
+            <option value="suffix_array">Suffix Array</option>
+
           </select>
         </div>
         <button className="centeredButton" onClick={() => { handleSubmit(); handleScrollUp(); }}>
@@ -171,15 +184,15 @@ function HomePage() {
             </div>
           </div>
         )}
-        {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
-        {scraperData&&keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
+        {scraperData  && <ScraperTextFrame url={urlInput}  scraperData={scraperData} analyzerData={analyzerData}/>}
+        {scraperData && keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
       
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-          <div style={{ flex: 1 }}>
-        {keywordListData&&recommendationListData && <TableComponent recommendationListData={recommendationListData}/>}
+          <div style={{ width:'40%' }}>
+        {scraperData && keywordListData&&recommendationListData && <TableComponent recommendationListData={recommendationListData}/>}
       </div>
-      <div style={{ flex: 1 }}>
-        {multialgo && <AlgoComparision multialgo={multialgo}/>}
+      <div style={{width:'60%'}}>
+        {scraperData && keywordListData&&multialgo && <AlgoComparision multialgo={multialgo}/>}
       </div>
     
 
