@@ -36,7 +36,6 @@ const TableWrapper = styled('div')({
 })
 
 export default function InsightTable({ analyzerData }) {
-  console.log('analyzerData', analyzerData);
 
   return (
     <TableWrapper>
