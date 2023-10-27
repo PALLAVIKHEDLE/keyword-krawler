@@ -1,7 +1,7 @@
 async function keywordList(payload) {
     let final_response
     try {
-      const response =  await fetch('http://34.105.100.197/api/v1/keyword/', {
+      const response =  await fetch('https://app.group5.live/api/v1/keyword/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
