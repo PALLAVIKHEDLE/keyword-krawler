@@ -14,6 +14,7 @@ import AnalyzerList from "../../api/analyzer";
 import InsightTable from "./inSight";
 import WordCloud from "./wordCloud";
 
+
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("rabin_karp");
@@ -63,11 +64,13 @@ function HomePage() {
     setSelectedAlgorithm(event.target.value);
   };
 
+
   const handleDownload = () => {
       // const element = document.getElementById('pdf-container');
     // html2pdf(element);
     window.print();
   };
+
 
   const handleScrollUp = () => {
     setScrollUp(true);
@@ -232,9 +235,7 @@ function HomePage() {
         <AlgoComparision multialgo={multialgo} />
       )}
 
-     {multialgo && keywordListData&& <button className="downloadButton" onClick={handleDownload}>
-          Download
-        </button>
+     {multialgo && keywordListData&& <button className="downloadButton" onClick={handleDownload}></button>
 }
     </div>
   );
