@@ -1,7 +1,7 @@
 async function AnalyzerList(payload) {
     let final_response
     try {
-      const response =  await fetch('http://34.105.100.197/api/v1/analyzer/', {
+      const response =  await fetch('https://app.group5.live/api/v1/analyzer/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
