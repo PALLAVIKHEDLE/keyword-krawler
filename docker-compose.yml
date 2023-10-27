@@ -32,6 +32,12 @@ services:
     image: krravindra/analyzer:latest
     ports:
       - 8002:8002
+  
+
+  recommender:
+    image: krravindra/recommender:latest
+    ports:
+      - 8003:8003
 
   redis:
     image: redis:6.2

@@ -21,3 +21,9 @@ ADD . /app
 WORKDIR /app/analyzer
 RUN pip install -r requirements.txt
 CMD python analyzer.py
+
+FROM python:3.11.5-bullseye as recommender
+ADD . /app
+WORKDIR /app/recommender
+RUN pip install -r requirements.txt
+CMD python recommender.py
