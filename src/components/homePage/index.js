@@ -11,6 +11,7 @@ import AlgoComparision from './algoComparision';
 import TableComponent from './recommendationTableComponent';
 import RecommendationList from "../../api/recommendation";
 import AnalyzerList from "../../api/analyzer"
+import InsightTable from './inSight'
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -46,6 +47,7 @@ function HomePage() {
 
   const handleUrlChange = (event) => {
     const inputValue = event.target.value;
+    // if(!inputValue)return false
 
     // const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 
@@ -191,9 +193,15 @@ function HomePage() {
           <div style={{ width:'40%' }}>
         {scraperData && keywordListData&&recommendationListData && <TableComponent recommendationListData={recommendationListData}/>}
       </div>
-      <div style={{width:'60%'}}>
-        {scraperData && keywordListData&&multialgo && <AlgoComparision multialgo={multialgo}/>}
-      </div>
+      <div style={{ width: '60%' }}>
+  <div style={{ height: '15%' }}>
+    {scraperData && keywordListData && multialgo && <AlgoComparision multialgo={multialgo} />}
+  </div>
+  <div style={{ height: '80%', width: '100%', overflow: 'auto' }}>
+    {scraperData && analyzerData && <InsightTable analyzerData={analyzerData} />}
+  </div>
+</div>
+
     
 
         {/* <button className="downloadButton" onClick={handleDownload}>
