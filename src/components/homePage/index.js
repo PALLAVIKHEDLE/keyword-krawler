@@ -8,8 +8,10 @@ import MultiAlgoComparision from "../../api/multiAlgo";
 import keywordList from "../../api/keyword";
 import KeywordListFrame from './keywordListFrame';
 import AlgoComparision from './algoComparision';
-import TableComponent from './tableComponent';
+import TableComponent from './recommendationTableComponent';
 import RecommendationList from "../../api/recommendation";
+import AnalyzerList from "../../api/analyzer"
+import InsightTable from './inSight'
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -19,6 +21,7 @@ function HomePage() {
   const [keywordListData, setKeywordListData] = useState("");
   const [multialgo, setMultialgo] = useState("");
   const [recommendationListData, setRecommendationListData]=useState('')
+  const [analyzerData, setAnalyzerData]= useState("");
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollUp, setScrollUp] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
@@ -44,6 +47,7 @@ function HomePage() {
 
   const handleUrlChange = (event) => {
     const inputValue = event.target.value;
+    // if(!inputValue)return false
 
     // const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 
@@ -58,11 +62,11 @@ function HomePage() {
     setSelectedAlgorithm(event.target.value);
   };
 
-  const handleDownload = () => {
-      // const element = document.getElementById('pdf-container'); 
-    // html2pdf(element);
-    window.print();
-  };
+  // const handleDownload = () => {
+  //     // const element = document.getElementById('pdf-container'); 
+  //   // html2pdf(element);
+  //   window.print();
+  // };
 
   const handleScrollUp = () => {
     setScrollUp(true);
@@ -124,6 +128,15 @@ function HomePage() {
         setLoading(false);
       });
 
+      const urlAnalyzerData=AnalyzerList(payload)
+      urlAnalyzerData.then((response) =>
+      setAnalyzerData(response))
+      .catch(error => {
+        console.error('API error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
   };
 
@@ -172,16 +185,22 @@ function HomePage() {
             </div>
           </div>
         )}
-        {scraperData && <ScraperTextFrame url={urlInput}  scraperData={scraperData}/>}
-        {scraperData&&keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
+        {scraperData  && <ScraperTextFrame url={urlInput}  scraperData={scraperData} analyzerData={analyzerData}/>}
+        {scraperData && keywordListData&& <KeywordListFrame keywordListData={keywordListData}/>}
       
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-          <div style={{ flex: 1 }}>
-        {keywordListData&&recommendationListData && <TableComponent recommendationListData={recommendationListData}/>}
+          <div style={{ width:'40%' }}>
+        {scraperData && keywordListData&&recommendationListData && <TableComponent recommendationListData={recommendationListData}/>}
       </div>
-      <div style={{ flex: 1 }}>
-        {multialgo && <AlgoComparision multialgo={multialgo}/>}
-      </div>
+      <div style={{ width: '60%' }}>
+  <div style={{ height: '15%' }}>
+    {scraperData && keywordListData && multialgo && <AlgoComparision multialgo={multialgo} />}
+  </div>
+  <div style={{ height: '80%', width: '100%', overflow: 'auto' }}>
+    {scraperData && analyzerData && <InsightTable analyzerData={analyzerData} />}
+  </div>
+</div>
+
     
 
         {/* <button className="downloadButton" onClick={handleDownload}>

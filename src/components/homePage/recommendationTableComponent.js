@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import{Table, TableBody, TableCell, TableContainer, tableCellClasses, TableHead, TableRow, Paper} from '@mui/material'
+import{Table, TableBody, TableCell, TableContainer, tableCellClasses, TableHead, TableRow, Paper,styled} from '@mui/material'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,14 +27,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables({recommendationListData}) {
   return (
-    <div style={{ width: '500px' }}>
-    <TableContainer component={Paper} style={{padding:3, marginLeft:'10%'}}>
-      <Table   aria-label="customized table">
+    <TableContainer component={Paper} style={{padding:3, marginLeft:'10%', minidth:'40%'}}>
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Original Keywords</StyledTableCell>
+            <StyledTableCell align='center'>Count</StyledTableCell>
             <StyledTableCell align='center' >Possible Replacements</StyledTableCell>
-            <StyledTableCell align='center'>Recommendation Words</StyledTableCell>
+            <StyledTableCell align='center'>Major Search Phrases</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>  
@@ -43,6 +42,9 @@ export default function CustomizedTables({recommendationListData}) {
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {keyword.originalKeyword}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  {keyword.count}
                 </StyledTableCell>
                 <StyledTableCell  align='center'>
                   {keyword.probableReplacements?.map((replacements, altIndex) => 
@@ -66,6 +68,5 @@ export default function CustomizedTables({recommendationListData}) {
         </TableBody>
       </Table>
     </TableContainer>
-    </div>
   );
 }

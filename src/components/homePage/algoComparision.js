@@ -103,7 +103,7 @@ const AlgoComparision = ({ multialgo }) => {
             // const name = algoData[context.dataIndex].algoName;
             // return `${label}: ${name}`;
             return `${label}`
-
+            
           },
         },
       },
@@ -111,7 +111,7 @@ const AlgoComparision = ({ multialgo }) => {
   };
 
 
-  return <Bar options={options} data={data} style={{ marginLeft: '18%',marginTop:'10%' }} />;
+  return <Bar options={options} data={data} style={{ marginRight:'10%',marginLeft:'13%' }} />;
 };
 
 export default AlgoComparision;
