@@ -270,7 +270,7 @@ def get_keywords(algo_choice, scrapped_content):
                     occurences = search_pattern_with_suffix_array(scrapped_content, each_word, suffix_array)
                     keywords_and_count.append({"keyword": each_word, "count": occurences})
                     existing_keywords.append(each_word)
-        return keywords_and_count, elapsed_time + (time.time()-start_time)
+        return keywords_and_count, (time.time()-start_time)
     if algo_choice == "suffix_tree":
         logger.info("Triggered Suffix Trees")
         start_time = time.time()
