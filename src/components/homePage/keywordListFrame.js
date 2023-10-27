@@ -1,6 +1,7 @@
 import { Chart as ChartJS, LinearScale, PointElement, Tooltip, Legend } from 'chart.js';
 import { Bubble } from 'react-chartjs-2';
 import faker from 'faker';
+import { f } from 'html2pdf.js';
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
@@ -29,18 +30,29 @@ if (!ChartJS?.plugins?.getPlugin('customLabels')) {
 }
 
 const KeywordBubbleChart = ({ keywordListData }) => {
-  const calculateBubbleRadius = (count) => {
-    // Adjust this factor as needed to control the scaling of bubbles
-    const scalingFactor = 4;
-    return count % 100
+  const calculateBubbleRadius = (index) => {
+    if (index > 7) {
+      return 50 ;
+    } else if (index > 3) {
+      return 65;
+    } else {
+      return 85;
+    }
+  }
+  const calculateBubbleX = (index) => {
+    return faker.datatype.number({ min: -100, max: 100 });
+  };
+  
+  const calculateBubbleY = (index) => {
+    return faker.datatype.number({ min: -100, max: 100 });
   };
 
-  const bubbleData = keywordListData?.topKeywordListings.map((item) => (
-    // console.log('item',item.originalKeyword, item.count),
-    {
-    // r: calculateBubbleRadius(item.count),
-    r: calculateBubbleRadius(item.count),
+  const bubbleData = keywordListData?.topKeywordListings.map((item, index) => (
 
+    {
+    r: calculateBubbleRadius(index),
+    x: calculateBubbleX(index),
+    y: calculateBubbleY(index),
     originalKeyword: item.originalKeyword,
   }));
 
@@ -49,19 +61,19 @@ const KeywordBubbleChart = ({ keywordListData }) => {
       {
         label: 'Keyword',
         data: bubbleData?.map((item) => ({
-          x: faker.datatype.number({ min: -100, max: 100 }),
-          y: faker.datatype.number({ min: -100, max: 100 }),
+          x: item.x ,
+          y: item.y ,
           r: item.r,
         })),
         backgroundColor: bubbleData?.map((item) => {
-          if (item.r > 55) {
-            return '#F2510A'; // orange
-          } else if (item.r > 35) {
+          if (item.r > 65) {
+            return '#F74C4C'; // red
+          } else if (item.r > 50) {
             return '#FABB2E'; // yellow
-          }else if(item.r > 10){
-            return '#5b209a'; //purple
-          }else {
-            return '#287e29'; // green
+          } else if (item.r > 0) {
+            return '#70C1B3'; // blue-green
+          } else {
+            return '#70C1B3'; // blue-green
           }
         }),
       },
@@ -76,7 +88,6 @@ const KeywordBubbleChart = ({ keywordListData }) => {
         display:false
       },
       y: {
-        beginAtZero: true,
         display:false
       },
     },
