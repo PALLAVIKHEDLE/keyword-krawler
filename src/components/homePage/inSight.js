@@ -29,14 +29,13 @@ const StickyTableHead = styled(TableHead)({
 
 const TableWrapper = styled('div')({
   overflowY: 'auto',
-  maxHeight: '43%',
+  maxHeight: '23%',
   marginRight:'10%',
   marginTop:'5%', 
   marginLeft: '10%'
 })
 
 export default function InsightTable({ analyzerData }) {
-  console.log('analyzerData', analyzerData);
 
   return (
     <TableWrapper>

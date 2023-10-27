@@ -12,6 +12,8 @@ import TableComponent from "./recommendationTableComponent";
 import RecommendationList from "../../api/recommendation";
 import AnalyzerList from "../../api/analyzer";
 import InsightTable from "./inSight";
+import WordCloud from "./wordCloud";
+
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
@@ -62,11 +64,13 @@ function HomePage() {
     setSelectedAlgorithm(event.target.value);
   };
 
-  // const handleDownload = () => {
-  //     // const element = document.getElementById('pdf-container');
-  //   // html2pdf(element);
-  //   window.print();
-  // };
+
+  const handleDownload = () => {
+      // const element = document.getElementById('pdf-container');
+    // html2pdf(element);
+    window.print();
+  };
+
 
   const handleScrollUp = () => {
     setScrollUp(true);
@@ -209,28 +213,30 @@ function HomePage() {
       )}
 
       <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-        <div style={{ width: "40%" }}>
-          {scraperData && keywordListData && recommendationListData && (
-            <TableComponent recommendationListData={recommendationListData} />
-          )}
-        </div>
+          <div style={{ width: "40%" }}>
+            {scraperData && keywordListData && recommendationListData && (
+              <TableComponent recommendationListData={recommendationListData} />
+            )}
+          </div>
         <div style={{ width: "60%" }}>
-          <div style={{ height: "15%" }}>
-            {scraperData && keywordListData && multialgo && (
-              <AlgoComparision multialgo={multialgo} />
-            )}
-          </div>
-          <div style={{ height: "80%", width: "100%", overflow: "auto" }}>
-            {scraperData && analyzerData && recommendationListData && (
-              <InsightTable analyzerData={analyzerData} />
-            )}
-          </div>
+          <div style={{ maxHeight: "20%", width: "100%", overflow: "auto", marginLeft:'10%',marginRight:'10%' }}>
+              {scraperData && analyzerData && (
+                <WordCloud analyzerData={analyzerData} />
+              )}
+            </div>
+            <div style={{ maxHeight: "68%", width: "100%", overflow: "auto" }}>
+              {scraperData && analyzerData && (
+                <InsightTable analyzerData={analyzerData} />
+              )}
+            </div>
         </div>
-
-        {/* <button className="downloadButton" onClick={handleDownload}>
-          Download
-        </button> */}
       </div>
+      {scraperData && keywordListData && multialgo && (
+        <AlgoComparision multialgo={multialgo} />
+      )}
+
+     {multialgo && keywordListData&& <button className="downloadButton" onClick={handleDownload}></button>
+}
     </div>
   );
 }
