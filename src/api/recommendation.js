@@ -1,7 +1,7 @@
-async function multialgoComparision(payload) {
+async function RecommendationList(payload) {
     let final_response
     try {
-      const response =  await fetch('http://34.105.100.197/api/v1/multi-algo/', {
+      const response =  await fetch('http://34.105.100.197/api/v1/keyword-recommendations/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,4 +24,4 @@ async function multialgoComparision(payload) {
       return [];
     }
   }
-  export default multialgoComparision;
+  export default RecommendationList;

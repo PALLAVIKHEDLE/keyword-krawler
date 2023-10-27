@@ -27,42 +27,52 @@ async def root():
     response = {"topKeywordListings": [
             {
             "original": "first",
+            "count": 25,
             "recommendation": "FirstRec"
             },
             {
             "original": "second",
+            "count": 4,
             "recommendation": "SecondRec"
             },
             {
             "original": "third",
+            "count": 16,
             "recommendation": "ThirdRec"
             },
             {
             "original": "four",
+            "count": 75,
             "recommendation": "FourthRec"
             },
             {
             "original": "fifth",
+            "count": 25,
             "recommendation": "FifthRec"
             },
             {
             "original": "six",
+            "count": 22,
             "recommendation": "SixRec"
             },
             {
             "original": "seven",
+            "count": 34,
             "recommendation": "SevenRec"
             },
             {
             "original": "eight",
+            "count": 103,
             "recommendation": "EightRec"
             },
             {
             "original": "Nine",
+            "count": 10,
             "recommendation": "NineRec"
             },
             {
             "original": "Ten",
+            "count": 15,
             "recommendation": "TenRec"
             }],
     "alogirthmExecutionTime": 0.893473
@@ -74,8 +84,8 @@ async def root():
 @app.post('/api/v1/multialgo/')
 async def root():
     time.sleep(6)
-    return {
-    "data": [
+   
+    return {"data": [
         {
             "algoName": "algo1",
             "algoExecutionTime": 0.893473,
@@ -83,26 +93,27 @@ async def root():
         },
         {
             "algoName": "algo2",
-            "algoExecutionTime": 0.893473,
+            "algoExecutionTime": 0.683473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo3",
-            "algoExecutionTime": 0.893473,
+            "algoExecutionTime": 0.763473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
         {
             "algoName": "algo4",
-            "algoExecutionTime": 0.893473,
+            "algoExecutionTime": 0.573473,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
         },
-                {
+        {
             "algoName": "algo5",
-            "algoExecutionTime": 0.892373,
+            "algoExecutionTime": 0.422373,
             "topKeywordListings": ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelveth", "thirteenth", "fourteenth", "fifteenth"]
-        }
-    ]
+        },
+    ],
 }
+ 
     
 
 
