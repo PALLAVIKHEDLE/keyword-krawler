@@ -115,6 +115,12 @@ async def keyword_recommendations_api(request: Request):
                     logger.info("Revalidating the cache with recommendations")
                     push_to_redis(url + payload["algoChoice"],existing_algo_data)
                     return existing_algo_data
+                else:
+                    logger.info("Let's give that scrapper and parser engines, a tad bit more time")
+                    if wait_iterator > 4:
+                        raise HTTPException(status_code=503, detail="Scrapper and Parser Engines are taking too long, please try again later")
+                    wait_iterator += 1
+                    time.sleep(7)
             else:
                 logger.info("Let's give that scrapper and parser engines, a tad bit more time")
                 if wait_iterator > 4:
