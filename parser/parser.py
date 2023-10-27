@@ -308,6 +308,7 @@ def get_top_keywords(keywords_and_count):
     try:
         return keywords_and_count[:12]
     except Exception as exc:
+        logger.error(f"Error while getting top keywords: {exc}")
         return exc
 # ******************************************************************************************************************************************
 
@@ -342,6 +343,7 @@ async def keyword_api(request: Request):
         push_to_redis(url + payload["algoChoice"],final_response)
         return final_response
     except Exception as e:
+        logger.error(f"Error while parsing: {e}")
         raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
 
 @app.post('/api/v1/keyword-recommendations/')
@@ -367,6 +369,7 @@ async def keyword_recommendations_api(request: Request):
             else:
                 raise HTTPException(status_code=503, detail="Scrapper Engine is taking too long, please try again later")
     except Exception as e:
+        logger.error(f"Error while generating recommendations: {e}")
         raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
 
 @app.post('/api/v1/multi-algo/')
