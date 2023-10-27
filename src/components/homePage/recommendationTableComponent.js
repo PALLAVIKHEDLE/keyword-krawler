@@ -32,6 +32,7 @@ export default function CustomizedTables({recommendationListData}) {
         <TableHead>
           <TableRow>
             <StyledTableCell>Original Keywords</StyledTableCell>
+            <StyledTableCell align='center'>Count</StyledTableCell>
             <StyledTableCell align='center' >Possible Replacements</StyledTableCell>
             <StyledTableCell align='center'>Major Search Phrases</StyledTableCell>
           </TableRow>
@@ -41,6 +42,9 @@ export default function CustomizedTables({recommendationListData}) {
               <StyledTableRow key={index}>
                 <StyledTableCell component="th" scope="row">
                   {keyword.originalKeyword}
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  {keyword.count}
                 </StyledTableCell>
                 <StyledTableCell  align='center'>
                   {keyword.probableReplacements?.map((replacements, altIndex) => 
