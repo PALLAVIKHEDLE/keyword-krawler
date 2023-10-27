@@ -212,45 +212,6 @@ def check_in_redis(key):
     
 # ************************************************************************************************************************************
 
-# Recommendations Generator ***********************************************************************************************************
-import requests
-import better_profanity
-
-def get_seo_recommendation(keyword):
-    url = "https://www.spyfu.com/NsaApi/RelatedKeyword/GetPhraseMatchedKeywords"
-    payload = f"{{\"query\":\"{keyword}\",\"pageSize\":10,\"isOverview\":true,\"countryCode\":\"US\"}}"
-    headers = {
-    'content-type': 'application/json;charset=UTF-8',
-    'Cookie': 'ASP.NET_SessionId=rutmlg02sfx4yakg0nd0asxw'
-    }
-
-    response = requests.request("POST", url, headers=headers, data=payload)
-    alternate_keywords = []
-    for each in response.json()["keywords"]:
-        if not better_profanity.profanity.contains_profanity(each["keyword"]):
-            alternate_keywords.append(each["keyword"])
-    return alternate_keywords
-
-
-def get_suggested_replacements(keyword):
-    url = f"https://api.datamuse.com/words?rel_syn={keyword}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        synonyms = [word['word'] for word in response.json()][:2]
-        return synonyms
-    else:
-        return None
-
-def generate_recommendations(keywords_and_count):
-    for each in keywords_and_count:
-        each["mostSearchedAlternatives"] = get_seo_recommendation(each["originalKeyword"])
-        each["probableReplacements"] = get_suggested_replacements(each["originalKeyword"])
-    return keywords_and_count
-
-
-# ************************************************************************************************************************************
-
-
 # Parsing Engine ***************************************************************************************************************************
 import time
 def get_keywords(algo_choice, scrapped_content):
@@ -268,7 +229,7 @@ def get_keywords(algo_choice, scrapped_content):
             else:
                 if each_word not in existing_keywords:
                     occurences = search_pattern_with_suffix_array(scrapped_content, each_word, suffix_array)
-                    keywords_and_count.append({"keyword": each_word, "count": occurences})
+                    keywords_and_count.append({"originalKeyword": each_word, "count": occurences})
                     existing_keywords.append(each_word)
         return keywords_and_count, (time.time()-start_time)
     if algo_choice == "suffix_tree":
@@ -286,7 +247,7 @@ def get_keywords(algo_choice, scrapped_content):
                 else:
                     if each_word not in existing_keywords:
                         occurences = suffix_tree(constructed_suffix_tree, each_word)
-                        keywords_and_count.append({"keyword": each_word, "count": occurences})
+                        keywords_and_count.append({"originalKeyword": each_word, "count": occurences})
                         existing_keywords.append(each_word)
             return keywords_and_count, time.time() - start_time
         except Exception as e:
@@ -344,32 +305,6 @@ async def keyword_api(request: Request):
         return final_response
     except Exception as e:
         logger.error(f"Error while parsing: {e}")
-        raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
-
-@app.post('/api/v1/keyword-recommendations/')
-async def keyword_recommendations_api(request: Request):
-    payload = await request.json()
-    url = payload['url'].strip('/') if payload['url'].endswith('/') else payload['url']
-    try:
-            data = check_in_redis(url)
-            if data:
-                logger.info("Found in Cache Store, Checking if this algo is already executed")
-                existing_algo_data = check_in_redis(url + payload["algoChoice"])
-                if existing_algo_data:
-                    logger.info("Cache store found this entry, checking if recommendations already exists")
-                    if existing_algo_data["topKeywordListings"][0].get("mostSearchedAlternatives"):
-                        logger.info("Recommendations exist, returning my precious data without changes")
-                        return existing_algo_data
-                    all_keywords = existing_algo_data["topKeywordListings"]
-                    modified_keywords = generate_recommendations(all_keywords)
-                    existing_algo_data["topKeywordListings"] = modified_keywords
-                    logger.info("Revalidating the cache with recommendations")
-                    push_to_redis(url + payload["algoChoice"],existing_algo_data)
-                    return existing_algo_data
-            else:
-                raise HTTPException(status_code=503, detail="Scrapper Engine is taking too long, please try again later")
-    except Exception as e:
-        logger.error(f"Error while generating recommendations: {e}")
         raise HTTPException(status_code=503, detail="Hello, I am the parser engine, Scrapper is taking too long, please try again later")
 
 @app.post('/api/v1/multi-algo/')
