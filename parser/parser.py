@@ -134,10 +134,19 @@ class SuffixTree:
         else:
             for char, child in node.children.items():
                 self.display(child, prefix + char)
-                
+
+def construct_suffix_tree(scrapped_content):
+    from suffix_tree import Tree
+    return Tree({"A": scrapped_content})
+
+
+def suffix_tree(suffix_tree, pattern):
+    return len(suffix_tree.find_all(pattern))          
+
 def construct_suffix_array(text):
-    suffixes = [(text[i:], i) for i in range(len(text))]
-    suffixes.sort(key=lambda x: x[0])
+    n = len(text)
+    suffixes = [(text[i:], i) for i in range(n)]
+    suffixes.sort()
     suffix_array = [item[1] for item in suffixes]
     return suffix_array
 
@@ -159,19 +168,13 @@ def search_pattern_with_suffix_array(text, pattern, suffix_array): #Using bst ag
             while i <= right and text[suffix_array[i]:suffix_array[i] + m] == pattern:
                 positions.append(suffix_array[i])
                 i += 1
-            return positions
+            return len(positions)
         elif text[suffix:suffix + m] < pattern:
             left = mid + 1
         else:
             right = mid - 1
-    return positions
+    return len(positions)
 
-def suffix_array(text, pattern):
-    print("Invoked Suffix Array")
-    suffix_array_structure = construct_suffix_array(text)
-    occurrences = search_pattern_with_suffix_array(text, pattern, suffix_array_structure)
-    return len(occurrences)
-    
 
 # ************************************************************************************************************************************
 
@@ -254,6 +257,41 @@ def get_keywords(algo_choice, scrapped_content):
     keywords_and_count = []
     existing_keywords = []
     start_time = time.time()
+    if algo_choice == "suffix_array":
+        logger.info("Triggered Suffix Arrays")
+        suffix_array = construct_suffix_array(scrapped_content)
+        for each_word in scrapped_content.split(" "):
+            if each_word == "":
+                continue
+            elif not each_word.isalpha():
+                continue
+            else:
+                if each_word not in existing_keywords:
+                    occurences = search_pattern_with_suffix_array(scrapped_content, each_word, suffix_array)
+                    keywords_and_count.append({"keyword": each_word, "count": occurences})
+                    existing_keywords.append(each_word)
+        return keywords_and_count, elapsed_time + (time.time()-start_time)
+    if algo_choice == "suffix_tree":
+        logger.info("Triggered Suffix Trees")
+        start_time = time.time()
+        keywords_and_count = []
+        existing_keywords = []
+        constructed_suffix_tree = construct_suffix_tree(scrapped_content)
+        try: 
+            for each_word in scrapped_content.split(" "):
+                if each_word == "":
+                    continue
+                elif not each_word.isalpha():
+                    continue
+                else:
+                    if each_word not in existing_keywords:
+                        occurences = suffix_tree(constructed_suffix_tree, each_word)
+                        keywords_and_count.append({"keyword": each_word, "count": occurences})
+                        existing_keywords.append(each_word)
+            return keywords_and_count, time.time() - start_time
+        except Exception as e:
+            logger.error(f"Error while parsing suffix tree: {e}")
+            return None
     for eachword in scrapped_content.split(" "):
         if eachword == "":
             continue
@@ -335,7 +373,7 @@ async def keyword_recommendations_api(request: Request):
 async def multialgo_api(request: Request):
     payload = await request.json()
     url = payload['url'].strip('/') if payload['url'].endswith('/') else payload['url']
-    algo_choices = ["rabin_karp", "naive", "kmp"]
+    algo_choices = ["rabin_karp", "naive", "kmp", "suffix_array", "suffix_tree"]
     final_response = {"data": []}
     wait_iterator = 0
     try:
