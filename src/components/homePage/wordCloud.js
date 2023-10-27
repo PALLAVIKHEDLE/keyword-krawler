@@ -9,11 +9,8 @@ import "tippy.js/animations/scale.css";
 
 
 const resizeStyle = {
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-  border: "solid 1px #ddd",
-//   background: "#f0f0f0"
+
+  border: "solid 2px white",
 background:'black'
 };
 
