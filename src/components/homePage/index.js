@@ -147,7 +147,8 @@ function HomePage() {
             <option value="rabin_karp">Rabin Karp</option>
             <option value="kmp">Knuth Morris</option>
             <option value="naive">Naive</option>
-            <option value="boyremoore">Boyre Moore</option>
+            <option value="suffix_array">Suffix Array</option>
+            <option value="suffix_tree">Suffix Tree</option>
           </select>
         </div>
         <button className="centeredButton" onClick={() => { handleSubmit(); handleScrollUp(); }}>
