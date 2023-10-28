@@ -311,7 +311,7 @@ async def keyword_api(request: Request):
 async def multialgo_api(request: Request):
     payload = await request.json()
     url = payload['url'].strip('/') if payload['url'].endswith('/') else payload['url']
-    algo_choices = ["rabin_karp", "naive", "kmp", "suffix_array", "suffix_tree"]
+    algo_choices = [ "kmp", "suffix_array", "suffix_tree"]
     final_response = {"data": []}
     wait_iterator = 0
     try:
