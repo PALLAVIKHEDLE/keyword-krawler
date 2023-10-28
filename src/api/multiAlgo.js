@@ -16,11 +16,13 @@ async function multialgoComparision(payload) {
       .then(data => {
         console.log('API response:', data);
         final_response = data
+
         return data
       })
       return final_response;
     } catch (error) {
       console.error("Error fetching scraper text:", error);
+      window.location.reload();
       return [];
     }
   }

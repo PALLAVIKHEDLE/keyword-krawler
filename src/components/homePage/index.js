@@ -16,7 +16,7 @@ import WordCloud from "./wordCloud";
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("rabin_karp");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("suffix_array");
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
@@ -26,6 +26,7 @@ function HomePage() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollUp, setScrollUp] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     const container = document.getElementById("pdf-container");
@@ -65,6 +66,7 @@ function HomePage() {
   };
 
   const handleSubmit = () => {
+    setStarted(true);
     setScraperData("");
     setKeywordListData("");
     setMultialgo("");
@@ -106,7 +108,19 @@ function HomePage() {
     const keywordListData = keywordList(payload);
 
     keywordListData
-      .then((response) => setKeywordListData(response))
+      .then((response) => {
+        setKeywordListData(response)
+      
+        const multialgoComparision = MultiAlgoComparision(payload);
+        multialgoComparision
+          .then((response) => setMultialgo(response))
+          .catch((error) => {
+            console.error("API error:", error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      })
       .catch((error) => {
         console.error("API error:", error);
       })
@@ -123,15 +137,7 @@ function HomePage() {
         console.log("Finalised");
       });
 
-    const multialgoComparision = MultiAlgoComparision(payload);
-    multialgoComparision
-      .then((response) => setMultialgo(response))
-      .catch((error) => {
-        console.error("API error:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+
 
     const urlAnalyzerData = AnalyzerList(payload);
     urlAnalyzerData
@@ -205,9 +211,46 @@ function HomePage() {
           analyzerData={analyzerData}
         />
       )}
+
+
+      {   started && !keywordListData && (
+
+          <div className="center">
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+          </div>
+
+      )}
+
       {scraperData && keywordListData && (
         <KeywordListFrame keywordListData={keywordListData} />
       )}
+
+
+        { started && !recommendationListData && (
+
+        <div className="center">
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+        </div>
+
+        )}
 
       {scraperData && keywordListData && recommendationListData && (
         <div
@@ -226,17 +269,18 @@ function HomePage() {
           </h4>
         </div>
       )}
+      { scraperData && keywordListData && recommendationListData && analyzerData && (
       <div style={{ display: "flex", flexDirection: "row", width: "90%" }}>
         <div style={{ width: "45%", minHeight: "60vw", maxHeigh: "60vw" }}>
-          {scraperData && keywordListData && recommendationListData && (
+
             <TableComponent recommendationListData={recommendationListData} />
-          )}
+
         </div>
         <div style={{ width: "55%" }}>
           <div style={{ maxHeight: "40vw", width: "100%", overflow: "auto" }}>
-            {scraperData && analyzerData && recommendationListData && (
+
               <InsightTable analyzerData={analyzerData} />
-            )}
+
           </div>
           <div
             style={{
@@ -247,12 +291,30 @@ function HomePage() {
               marginTop: "1%",
             }}
           >
-            {scraperData && analyzerData && recommendationListData && (
+
               <WordCloud analyzerData={analyzerData} />
-            )}
+
           </div>
         </div>
       </div>
+      )}
+      { started &&  !keywordListData && !multialgo && (
+
+        <div className="center">
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+        </div>
+
+        )}
+
       {scraperData &&
         keywordListData &&
         multialgo &&

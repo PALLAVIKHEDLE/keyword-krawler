@@ -18,6 +18,9 @@
       .then(data => {
         console.log('API response:', data);
         final_response = data
+        if (data == null || data.length == 0) {
+          window.location.reload();
+        }
         return data
       })
       return final_response;
