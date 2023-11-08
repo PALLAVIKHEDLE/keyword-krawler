@@ -21,6 +21,7 @@ async function RecommendationList(payload) {
       return final_response;
     } catch (error) {
       console.error("Error fetching scraper text:", error);
+      window.location.reload();
       return [];
     }
   }

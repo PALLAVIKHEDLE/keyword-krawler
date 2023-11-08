@@ -4,29 +4,16 @@ services:
     image: krravindra/algo-frontend:latest
     ports:
       - 3000:3000
-    # volumes:
-    #   - ./:/app
-    # working_dir: /app
-    # command: sh -c "npm i && npm start"
 
   scrapper:
     image: krravindra/scrapper:latest
     ports:
       - 8000:8000
-    # volumes:
-    #   - ./:/app
-    # working_dir: /app/scrapper
-    # command: sh -c "pip3 install -r requirements.txt && python3 main.py"
 
   parser:
     image: krravindra/parser:latest
     ports:
-      - 8001:8001
-    # volumes:
-    #   - ./:/app
-    # working_dir: /app/parser
-    # command: sh -c "pip3 install -r requirements.txt && python3 parser.py"
-  
+      - 8001:8001  
 
   analyzer:
     image: krravindra/analyzer:latest

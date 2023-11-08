@@ -9,8 +9,7 @@ import "tippy.js/animations/scale.css";
 
 
 const resizeStyle = {
-
-  border: "solid 2px white",
+  border: "solid 2px black",
 background:'black'
 };
 
@@ -25,23 +24,26 @@ export default function WordCloud({ analyzerData }) {
         }
         return [];
       }, [analyzerData]);
-    
-      console.log('cloud', words, analyzerData);
+
     
   return (
     <div>
-    
+      <div style={{ color: "black", textAlign: "center", background: "#FABB2E", width: "97%", padding: "2px", broder: "20px solid white" }}>
+      <h4 style={{textAlign: "center", marginTop: "1%" }}> Phrase Cloud </h4>
+      </div>
+      <div style={{ maxHeight: "30vw"}}>
       <Resizable
         defaultSize={{
-          width: 600,
-          height: 300
+          width: "90%" ,
+          height: "60%"
         }}
         style={resizeStyle}
       >
-        <div style={{ width: "100%", height: "100%" }}>
+
           <ReactWordcloud words={words} />
-        </div>
+
       </Resizable>
+      </div>
     </div>
   );
 }

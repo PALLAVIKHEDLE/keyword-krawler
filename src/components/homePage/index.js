@@ -16,7 +16,7 @@ import WordCloud from "./wordCloud";
 
 function HomePage() {
   const [urlInput, setUrlInput] = useState("");
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("rabin_karp");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("suffix_array");
   const [loading, setLoading] = useState(false);
   const [scraperData, setScraperData] = useState("");
   const [keywordListData, setKeywordListData] = useState("");
@@ -26,6 +26,7 @@ function HomePage() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollUp, setScrollUp] = useState(false);
   const [resetScroll, setResetScroll] = useState(false);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     const container = document.getElementById("pdf-container");
@@ -48,14 +49,6 @@ function HomePage() {
 
   const handleUrlChange = (event) => {
     const inputValue = event.target.value;
-    // if(!inputValue)return false
-
-    // const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-
-    // if (urlRegex.test(inputValue) || inputValue === '') {
-    //   setUrlInput(inputValue);
-
-    // }
     setUrlInput(event.target.value);
   };
 
@@ -64,8 +57,6 @@ function HomePage() {
   };
 
   const handleDownload = () => {
-      // const element = document.getElementById('pdf-container');
-    // html2pdf(element);
     window.print();
   };
 
@@ -75,6 +66,7 @@ function HomePage() {
   };
 
   const handleSubmit = () => {
+    setStarted(true);
     setScraperData("");
     setKeywordListData("");
     setMultialgo("");
@@ -83,7 +75,16 @@ function HomePage() {
     setLoading(true);
 
     if (urlInput.trim() === "") {
+      setScraperData("");
+      setKeywordListData("");
+      setMultialgo("");
+      setRecommendationListData("");
+      setAnalyzerData("");
+      setLoading(false);
       alert("Please enter a URL");
+
+      window.location.reload();
+
       return;
     }
 
@@ -101,12 +102,25 @@ function HomePage() {
       })
       .finally(() => {
         console.log("Finalised");
+        setLoading(false);
       });
 
     const keywordListData = keywordList(payload);
 
     keywordListData
-      .then((response) => setKeywordListData(response))
+      .then((response) => {
+        setKeywordListData(response)
+      
+        const multialgoComparision = MultiAlgoComparision(payload);
+        multialgoComparision
+          .then((response) => setMultialgo(response))
+          .catch((error) => {
+            console.error("API error:", error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      })
       .catch((error) => {
         console.error("API error:", error);
       })
@@ -123,15 +137,7 @@ function HomePage() {
         console.log("Finalised");
       });
 
-    const multialgoComparision = MultiAlgoComparision(payload);
-    multialgoComparision
-      .then((response) => setMultialgo(response))
-      .catch((error) => {
-        console.error("API error:", error);
-      })
-      .finally(() => {
-        console.log("Finalised");
-      });
+
 
     const urlAnalyzerData = AnalyzerList(payload);
     urlAnalyzerData
@@ -140,7 +146,7 @@ function HomePage() {
         console.error("API error:", error);
       })
       .finally(() => {
-        setLoading(false);
+        console.log("Finalised");
       });
   };
 
@@ -198,44 +204,121 @@ function HomePage() {
           </div>
         </div>
       )}
-      {scraperData && (
+      {scraperData && scraperData !== "" && (
         <ScraperTextFrame
           url={urlInput}
           scraperData={scraperData}
           analyzerData={analyzerData}
         />
       )}
+
+
+      {   started && !keywordListData && (
+
+          <div className="center">
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+          </div>
+
+      )}
+
       {scraperData && keywordListData && (
         <KeywordListFrame keywordListData={keywordListData} />
       )}
 
-      <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-          <div style={{ width: "40%" }}>
-            {scraperData && keywordListData && recommendationListData && (
-              <TableComponent recommendationListData={recommendationListData} />
-            )}
+
+        { started && !recommendationListData && (
+
+        <div className="center">
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+        </div>
+
+        )}
+
+      {scraperData && keywordListData && recommendationListData && (
+        <div
+          style={{
+            color: "white",
+            textAlign: "center",
+            background: "transparent",
+            width: "97%",
+            padding: "2px",
+            broder: "20px solid white",
+          }}
+        >
+          <h4 style={{ textAlign: "center", marginTop: "1%" }}>
+            {" "}
+            Krawler's Important Notes{" "}
+          </h4>
+        </div>
+      )}
+      { scraperData && keywordListData && recommendationListData && analyzerData && (
+      <div style={{ display: "flex", flexDirection: "row", width: "90%" }}>
+        <div style={{ width: "45%", minHeight: "60vw", maxHeigh: "60vw" }}>
+
+            <TableComponent recommendationListData={recommendationListData} />
+
+        </div>
+        <div style={{ width: "55%" }}>
+          <div style={{ maxHeight: "40vw", width: "100%", overflow: "auto" }}>
+
+              <InsightTable analyzerData={analyzerData} />
+
           </div>
-        <div style={{ width: "60%" }}>
-          <div style={{ maxHeight: "20%", width: "100%", overflow: "auto", marginLeft:'10%',marginRight:'10%' }}>
-              {scraperData && analyzerData && (
-                <WordCloud analyzerData={analyzerData} />
-              )}
-            </div>
-            <div style={{ maxHeight: "68%", width: "100%", overflow: "auto" }}>
-              {scraperData && analyzerData && (
-                <InsightTable analyzerData={analyzerData} />
-              )}
-            </div>
+          <div
+            style={{
+              maxHeight: "20vw",
+              minHeight: "20vw",
+              width: "100%",
+              marginLeft: "2%",
+              marginTop: "1%",
+            }}
+          >
+
+              <WordCloud analyzerData={analyzerData} />
+
+          </div>
         </div>
       </div>
-      {scraperData && keywordListData && multialgo && (
-        <AlgoComparision multialgo={multialgo} />
       )}
+      { started &&  !keywordListData && !multialgo && (
 
-     {multialgo && keywordListData&& <button className="downloadButton" onClick={handleDownload}>
-          Download
-        </button>
-}
+        <div className="center">
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
+        </div>
+
+        )}
+
+      {scraperData &&
+        keywordListData &&
+        multialgo &&
+        recommendationListData && <AlgoComparision multialgo={multialgo} />}
     </div>
   );
 }
